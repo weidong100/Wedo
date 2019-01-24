@@ -1,0 +1,22 @@
+namespace {:getDbConfig('app_namespace')}\{$moduleName}\controller;
+
+use think\Controller;
+
+class {:tableNameToModelName($tableName)} extends Controller{
+	protected $model = null;
+
+	public function _initialize(){	
+		$this->model = new \{:getDbConfig('app_namespace')}\{$moduleName}\model\{:tableNameToModelName($modalname)};
+	}
+	
+	{include file="index" /}
+	
+	{include file="add" /}
+	
+	{include file="edit" /}
+	
+	{include file="delete" /}
+	
+	{include file="info" /}
+	
+}

@@ -1,0 +1,298 @@
+import Main from '@/components/main'
+import parentView from '@/components/parent-view'
+import store from '@/store'
+import routes from './routers'
+const validatenull = (obj) => {
+    
+    let hasOwnProperty = Object.prototype.hasOwnProperty;
+    if (obj == null) return true;
+    // 然后可以根据长度判断，在低版本的ie浏览器中无法这样判断。
+    if (obj.length > 0)    return false;
+    if (obj.length === 0)  return true;
+    //最后通过属性长度判断。
+    for (let key in obj) {
+        if (hasOwnProperty.call(obj, key)) return false;
+    }
+    return true;
+}
+const findRouter = (name,arr) => {
+  let result = arr.filter(item => {
+    return item.name == name; 
+  })
+  return result.length > 0 ? true : false;
+}
+export const initMenu = (menu,router) => {
+  if (menu.length === 0) {
+    return
+  }
+  let menus = formatRoutes(menu);
+  // 最后添加
+  let unfound = { path: '*',name: 'notfound', redirect: '/404', hidden: true }
+  let selfdefmenus = [
+  
+  {
+    path: '/components',
+    name: 'components',
+    icon: 'logo-buffer',
+    meta: {
+      
+      title: '组件'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'count_to_page',
+        name: 'count_to_page',
+        icon: 'md-trending-up',
+        meta: {
+          
+          title: '数字渐变'
+        },
+        component: () => import('@/view/components/count-to/count-to.vue')
+      },
+      {
+        path: 'drag_list_page',
+        name: 'drag_list_page',
+        icon: 'ios-infinite',
+        meta: {
+          
+          title: '拖拽列表'
+        },
+        component: () => import('@/view/components/drag-list/drag-list.vue')
+      },
+      {
+        path: 'drag_drawer_page',
+        name: 'drag_drawer_page',
+        icon: 'md-list',
+        meta: {
+          
+          title: '可拖拽抽屉'
+        },
+        component: () => import('@/view/components/drag-drawer')
+      },
+      {
+        path: 'org_tree_page',
+        name: 'org_tree_page',
+        icon: 'ios-people',
+        meta: {
+          
+          title: '组织结构树'
+        },
+        component: () => import('@/view/components/org-tree')
+      },
+      {
+        path: 'tree_table_page',
+        name: 'tree_table_page',
+        icon: 'md-git-branch',
+        meta: {
+          
+          title: '树状表格'
+        },
+        component: () => import('@/view/components/tree-table/index.vue')
+      },
+      {
+        path: 'cropper_page',
+        name: 'cropper_page',
+        icon: 'md-crop',
+        meta: {
+          
+          title: '图片裁剪'
+        },
+        component: () => import('@/view/components/cropper/cropper.vue')
+      },
+      {
+        path: 'tables_page',
+        name: 'tables_page',
+        icon: 'md-grid',
+        meta: {
+          
+          title: '多功能表格'
+        },
+        component: () => import('@/view/components/tables/tables.vue')
+      },
+      {
+        path: 'split_pane_page',
+        name: 'split_pane_page',
+        icon: 'md-pause',
+        meta: {
+          
+          title: '分割窗口'
+        },
+        component: () => import('@/view/components/split-pane/split-pane.vue')
+      },
+      {
+        path: 'markdown_page',
+        name: 'markdown_page',
+        icon: 'logo-markdown',
+        meta: {
+          
+          title: 'Markdown编辑器'
+        },
+        component: () => import('@/view/components/markdown/markdown.vue')
+      },
+      {
+        path: 'editor_page',
+        name: 'editor_page',
+        icon: 'ios-create',
+        meta: {
+          
+          title: '富文本编辑器'
+        },
+        component: () => import('@/view/components/editor/editor.vue')
+      },
+      {
+        path: 'icons_page',
+        name: 'icons_page',
+        icon: '_bear',
+        meta: {
+          
+          title: '自定义图标'
+        },
+        component: () => import('@/view/components/icons/icons.vue')
+      }
+    ]
+  },
+  {
+    path: '/update',
+    name: 'update',
+    icon: 'md-cloud-upload',
+    meta: {
+      
+      title: '数据上传'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'update_table_page',
+        name: 'update_table_page',
+        icon: 'ios-document',
+        meta: {
+          
+          title: '上传Csv'
+        },
+        component: () => import('@/view/update/update-table.vue')
+      },
+      {
+        path: 'update_paste_page',
+        name: 'update_paste_page',
+        icon: 'md-clipboard',
+        meta: {
+          
+          title: '粘贴表格数据'
+        },
+        component: () => import('@/view/update/update-paste.vue')
+      }
+    ]
+  },
+  {
+    path: '/excel',
+    name: 'excel',
+    icon: 'ios-stats',
+    meta: {
+      
+      title: 'EXCEL导入导出'
+    },
+    component: Main,
+    children: [
+      {
+        path: 'upload-excel',
+        name: 'upload-excel',
+        icon: 'md-add',
+        meta: {
+          
+          title: '导入EXCEL'
+        },
+        component: () => import('@/view/excel/upload-excel.vue')
+      },
+      {
+        path: 'export-excel',
+        name: 'export-excel',
+        icon: 'md-download',
+        meta: {
+          
+          title: '导出EXCEL'
+        },
+        component: () => import('@/view/excel/export-excel.vue')
+      }
+    ]
+  },
+  {
+    path: '/tools_methods',
+    name: 'tools_methods',
+    meta: {
+      hideInBread: true
+    },
+    component: Main,
+    children: [
+      {
+        path: 'tools_methods_page',
+        name: 'tools_methods_page',
+        icon: 'ios-hammer',
+        meta: {
+          
+          title: '工具方法',
+          beforeCloseName: 'before_close_normal'
+        },
+        component: () => import('@/view/tools-methods/tools-methods.vue')
+      }
+    ]
+  },
+  
+  
+  {
+    path: '/directive',
+    name: 'directive',
+    meta: {
+      hideInBread: true
+    },
+    component: Main,
+    children: [
+      {
+        path: 'directive_page',
+        name: 'directive_page',
+        icon: 'ios-navigate',
+        meta: {
+          
+          title: '指令'
+        },
+        component: () => import('@/view/directive/directive.vue')
+      }
+    ]
+  }
+  ]
+  menus.push(unfound)
+  let s_menus = menus.concat(selfdefmenus);
+  let beforeR = router.options.routes;
+  let filterR = [];
+  s_menus.forEach(oMenu => {
+      if(!findRouter(oMenu.name,beforeR)){
+        router.options.routes.push(oMenu);
+        filterR.push(oMenu)
+      }
+  })
+  router.addRoutes(filterR);
+  store.commit('addRouters',s_menus)
+  
+}
+
+export const formatRoutes = (aMenu,router) => {
+  const aRouter = []
+  
+  aMenu.forEach(oMenu => {
+    const obj = {
+        path: oMenu.path,
+        name: oMenu.name,
+        icon: oMenu.icon,
+        meta: {
+            title: oMenu.title,
+            notCache: true,
+        },
+        component: validatenull(oMenu.component) ? Main : (resolve) => require([`./../${oMenu.component}.vue`],resolve),
+        
+        children: validatenull(oMenu.children) ? [] : formatRoutes(oMenu.children)
+    } 
+    aRouter.push(obj)
+
+  })
+  return aRouter
+}

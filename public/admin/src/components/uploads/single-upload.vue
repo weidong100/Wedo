@@ -1,0 +1,155 @@
+<template>
+  <div>
+    <p>{{ title }}</p>
+    <div class="demo-upload-list" v-if="up.status !== 'init'">
+        <template v-if="up.status === 'finished'">
+            <img :src="up.url">
+            <div class="demo-upload-list-cover">
+                <icon type="ios-eye-outline" @click.native="handleView(up)"></icon>
+                <icon type="ios-trash-outline" @click.native="handleRemove(up)"></icon>
+            </div>
+        </template>
+        <template v-else>
+            <i-progress v-if="up.showProgress" :percent="up.percentage" hide-info></i-progress>
+        </template>
+    </div>
+    <upload
+        ref="upload"
+        :show-upload-list="false"
+        :on-success="handleSuccess"
+        :format="format"
+        :max-size="maxSize"
+        :on-format-error="handleFormatError"
+        :on-exceeded-size="handleMaxSize"
+        :on-progress="handleUploadProgress"
+        type="drag"
+        :data="params"
+        :action="action"
+        style="display: inline-block;width:58px;">
+        <div style="width: 58px;height:58px;line-height: 58px;">
+            <icon type="ios-camera" size="20"></icon>
+        </div>
+    </upload>
+    <modal :title="modelTitle" v-model="visible">
+        <img :src="imgPath" v-if="visible" style="width: 100%">
+    </modal>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'SingleUpload',
+  props: {
+    title: {
+      type: String,
+      default: '上传'
+    },
+    up: {
+      type: Object,
+      default () {
+        return {
+          name: '',
+          url: '',
+          status: 'init'
+        }
+      }
+    },
+    params: Object,
+    format: {
+      type: Array,
+      default () {
+        return [];
+      }
+    },
+    maxSize: {
+      type: Number,
+      default: 2048
+    },
+    action: {
+      type: String,
+      default: ''
+    },
+    modelTitle: {
+      type: String,
+      default: '查看照片'
+    }
+  },
+  data() {
+    return {
+      imgPath: '',
+      visible: false,
+    }
+  },
+  methods: {
+    handleView (file) {
+        this.imgPath = file.url;
+        this.visible = true;
+    },
+    handleRemove (file) {
+        this.$emit('on-remove', file)
+    },
+    handleSuccess (res, file) {
+        this.up.name = res.data.fileName
+        this.up.url = res.data.filePath
+        this.up.status = 'finished'
+        this.$Message.info(res.data.msg)
+    },
+    handleFormatError (file) {
+        let formatInfo = this.format.join()
+        this.$Notice.error({
+            title: '上传格式错误',
+            desc: file.name + ' 文件格式错误, 请上传' + formatInfo +'类型文件'
+        });
+    },
+    handleMaxSize (file) {
+        let max_size = this.maxSize 
+        this.$Notice.error({
+            title: '上传文件过大',
+            desc: file.name + ' 大小已超过' + max_size + 'KB'
+        });
+    },
+    handleUploadProgress (event, file, fileList) {
+        this.up = file
+    }
+  }
+}
+</script>
+
+<style>
+.demo-upload-list{
+  display: inline-block;
+  width: 60px;
+  height: 60px;
+  text-align: center;
+  line-height: 60px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #fff;
+  position: relative;
+  box-shadow: 0 1px 1px rgba(0,0,0,.2);
+  margin-right: 4px;
+}
+.demo-upload-list img{
+  width: 100%;
+  height: 100%;
+}
+.demo-upload-list-cover{
+  display: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0,0,0,.6);
+}
+.demo-upload-list:hover .demo-upload-list-cover{
+  display: block;
+}
+.demo-upload-list-cover i{
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  margin: 0 2px;
+}
+</style>

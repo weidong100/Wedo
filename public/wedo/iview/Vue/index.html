@@ -1,0 +1,382 @@
+<template>
+    <div>
+        <Card>
+            <tables 
+            ref="tables" 
+            pageShow
+            searchable
+            search-place="top"
+            :loading="loading"
+            v-model="tableData"
+            :page="page" 
+            :columns="columns" 
+            :drawer="drawer"
+            :myModal="myModal"
+            @on-delete="handleDelete" 
+            @page-change="handlePage" 
+            @table-add-data="addData"
+            @table-edit-data="editData"
+            @my-modal-close="handleModalClose"
+            @on-my-modal-ok="handleMyModalOk"
+            >
+                <!--表头搜索-->
+                <template slot="mySearch">
+{volist name="search" id="s"}
+{eq name="$types[$s][0]" value="input"}
+                    <Input v-model="searchField.{$s}" class="search-input" placeholder="请输入{$alias[$s]}"/>
+{else /}
+                    <Select v-model="searchField.{$s}" class="search-col" placeholder="请选择{$alias[$s]}">
+                        <Option value="">选项一</Option>
+                    </Select>
+{/eq}
+{/volist}
+                    <Button class="search-btn" type="primary" icon="md-search" @click="handleMySearch">搜索</Button>
+                </template>
+                <!--表头导出-->
+                <Button style="marginLeft: 2px;" type="success" icon="md-archive" slot="afterSearch" @click="exportExcel">导出</Button>
+                <!--添加编辑表单-->
+                <Form ref="sform" :model="formField" slot="drawer">
+                    <Row :gutter="32">
+{volist name="edit" id="f"}
+{neq name="$f" value="$pk"}
+                        <Col span="12">
+                            <FormItem label="{$alias[$f]}" label-position="top" prop="{$f}" required>
+{eq name="$types[$f][0]" value="input"}
+                                <Input v-model="formField.{$f}" placeholder="请输入{$alias[$f]}"/>
+{/eq}
+{eq name="$types[$f][0]" value="select"}
+                                <Select v-model="formField.{$f}" placeholder="请选择{$alias[$f]}">
+                                    <Option value="">请选择{$alias[$f]}</Option>
+                                </Select>
+{/eq}
+{eq name="$types[$f][0]" value="radio"}
+                                <RadioGroup v-model="formField.{$f}">
+                                    <Radio label="示例1"></Radio>
+                                    <Radio label="示例2"></Radio>
+                                </RadioGroup>
+{/eq}
+{eq name="$types[$f][0]" value="checkbox"}
+                                <CheckboxGroup v-model="formField.{$f}">
+                                    <Checkbox label="示例1"></Checkbox>
+                                    <Checkbox label="示例2"></Checkbox>
+                                </CheckboxGroup>
+{/eq}
+{eq name="$types[$f][0]" value="datepicker"}
+                                <DatePicker type="{$types[$f][1]}" placeholder="请选择{$alias[$f]}" v-model="formField.{$f}" style="width:100%;"></DatePicker>
+{/eq}
+{eq name="$types[$f][0]" value="timepicker"}
+                                <TimePicker type="{$types[$f][1]}" placeholder="请选择{$alias[$f]}" v-model="formField.{$f}" style="width:100%;"></TimePicker>
+{/eq}
+                            </FormItem>
+                        </Col>
+{/neq}
+{/volist}
+                    </Row>
+                    <Row :gutter="32"></Row>
+{volist name="uploads.single" id="us"}
+                        <Col span="12">
+                            <SingleUpload title="{$alias[$us]}" :up="uploadInit.{$us}" :params="uploadParam.{$us}" :format="uploadFormat.{$us}" :maxSize="uploadMaxSize.{$us}" :action="uploadAction" @on-remove="uploadRemove.{$us}"></SingleUpload>
+                        </Col>
+{/volist}
+                    </Row>
+                    <FormItem>
+                        <Button type="primary" @click="handleForm()">保存</Button>
+                        <Button type="warning" style="marginLeft: 8px" @click="formReset(false)">重置</Button>
+                        <Button style="marginLeft: 8px" @click="drawer.show = false">取消</Button>
+                    </FormItem>
+                </Form>
+            </tables> 
+        </Card>
+    </div>
+</template>
+  
+<script>
+import Tables from '_c/tables'
+{notempty name="$uploads['single']"}import SingleUpload from '_c/uploads/single-upload.vue'{/notempty}
+
+import { {volist name="api" id="a"}{$a}{lt name="$i" value=":count($api)"},{/lt}{/volist} } from '@/api/{$apiDoc}'
+
+export default {
+  name: '{$component}',
+  components: {
+    Tables{notempty name="$uploads['single']"},
+    SingleUpload{/notempty}
+  },
+  data () {
+    return {
+      loading: true,
+      //分页配置
+      page: {
+        page: 1,
+        total: 0,
+        pageSize: 10
+      },
+      searchField: {
+{volist name="search" id="s"}
+        {$s}: ''{lt name="$i" value=":count($search)"},
+{/lt}
+{/volist}
+
+      },
+      columns: [
+{volist name="list" id="l"}
+        { title: '{$alias[$l]}', key: '{$l}' },
+{/volist}
+        {
+          title: '操作',
+          key: 'handle',
+          button: [
+            (h, params, vm) => {
+              return h('Button', {
+                props: {
+                  type: 'success',
+                  size: 'small',
+                  icon: 'md-create'
+                },
+                style: {
+                  marginRight: '5px'
+                },
+                on: {
+                  'click' : () => {
+                    vm.$emit('table-edit-data', params.row, vm)
+                  }
+                }
+              },'编辑')
+            },
+            (h, params, vm) => {
+              return h('Poptip', {
+                  props: {
+                    confirm: true,
+                    title: '你确定要删除吗?'
+                  },
+                  on: {
+                    'on-ok': () => {
+                      vm.$emit('on-delete', params, vm)
+                    }
+                  }
+                }, 
+                [
+                  h('Button', {
+                    props: {
+                      type: 'error',
+                      size: 'small',
+                      icon: 'md-trash'
+                    },
+                    style: {
+                      marginRight: '5px'
+                    }
+                  },'删除')
+                ]
+              )
+            }
+          ]
+        }
+      ],
+      tableData: [],
+      drawer: {
+        title: '',
+        show: false
+      },
+      myModal: {
+        title: '',
+        show: false,
+        width: '800px'
+      },
+      formField: {
+{volist name="edit" id="e"}
+        {$e}: {eq name="$types[$s][0]" value="checkbox"}[]{else/}''{/eq}{lt name="$i" value=":count($edit)"},
+{/lt}
+{/volist}
+
+      }{notempty name="$uploads"},
+      uploadAction: '',
+      uploadInit: {
+{volist name="uploads.single" id="us"}
+        {$us}: {}{lt name="$i" value=":count($uploads.single)"},
+{/lt}
+{/volist}{volist name="uploads.multiple" id="um"},
+        {$um}: []{lt name="$i" value=":count($uploads.multiple)"},
+{/lt}
+{/volist}
+
+      },
+      uploadParam: {
+{volist name="uploads.single" id="us"}
+        {$us}: {}{lt name="$i" value=":count($uploads.single)"},
+{/lt}
+{/volist}{volist name="uploads.multiple" id="um"},
+        {$um}: {}{lt name="$i" value=":count($uploads.multiple)"},
+{/lt}
+{/volist}        
+      },
+      uploadFormat: {
+{volist name="uploads.single" id="us"}
+        {$us}: []{lt name="$i" value=":count($uploads.single)"},
+{/lt}
+{/volist}{volist name="uploads.multiple" id="um"},
+        {$um}: []{lt name="$i" value=":count($uploads.multiple)"},
+{/lt}
+{/volist}        
+      },
+      uploadMaxSize: {
+{volist name="uploads.single" id="us"}
+        {$us}: 2048{lt name="$i" value=":count($uploads.single)"},
+{/lt}
+{/volist}{volist name="uploads.multiple" id="um"},
+        {$um}: 2048{lt name="$i" value=":count($uploads.multiple)"},
+{/lt}
+{/volist}        
+      },
+      uploadRemove: {
+{volist name="uploads.single" id="us"}
+        {$us}: (file) => {
+          console.log(file)
+        }{lt name="$i" value=":count($uploads.single)"},
+{/lt}
+{/volist}{volist name="uploads.multiple" id="um"},
+        {$um}: (file) => {
+          console.log(file)
+        }{lt name="$i" value=":count($uploads.multiple)"},
+{/lt}
+{/volist}        
+      }{/notempty}
+    
+    }
+  },
+  methods: {
+    //监听分页
+    handlePage (page, size) {
+      console.log('分页的方法在这里写')
+      this.loading = true
+      {$api['listApi']}({ page, pageSize: size }).then(res => {
+        this.page.total = res.data.count
+        this.tableData = res.data.data
+        this.loading = false
+      })  
+    },
+    //查询方法
+    handleMySearch () {
+      console.log('查询的方法在这里写')
+      let field = this.searchField
+      {$api['listApi']}(field).then(res => {
+        console.log(res)
+        this.tableData = res.data.data
+        this.page.page  = 1
+        this.page.total = res.data.count
+      })
+    },
+    //监听添加
+    addData () {
+      this.opentype = 'drawer'
+      console.log('新增的方法在这里写')
+      this.drawer.title = '添加'
+      this.drawer.show = true
+      this.formReset()
+      this.formField.save_type = 1
+    },
+    //监听编辑
+    editData (oldData, vm) {
+      this.opentype = 'drawer'
+      this.drawer.title = '编辑'
+      for (let key in this.formField){
+        this.formField[key] = oldData[key]
+      }
+      this.formField.id = oldData.{$pk}
+
+      this.formField.save_type = 2
+      this.drawer.show = true
+      console.log('编辑的方法在这里写')
+    },
+    //处理表单提交
+    handleForm () {
+      if(this.formField.save_type == 1){
+        {$api['createApi']}(this.formField).then(res => {
+          if(res.data.code == 200){
+            this.drawer.show = false
+            this.$Message.success(res.data.msg);
+            this.page.total++
+            let lastP = Math.ceil(this.page.total / this.page.pageSize)
+            this.reloadTable(lastP)
+          }else{
+            this.$Message.error(res.data.msg);
+          }
+        })
+      }else if(this.formField.save_type == 2){
+        {$api['editApi']}(this.formField).then(res => {
+          if(res.data.code == 200){
+            this.drawer.show = false
+            this.$Message.success(res.data.msg);
+            this.reloadTable()
+          }else{
+            this.$Message.error(res.data.msg);
+          }
+        })
+      }
+    },
+    //监听删除事件
+    handleDelete (params, vm) {
+      let id = params.row.{$pk}
+      
+      {$api['deleteApi']}(id).then(res => {
+        if(res.data.code == 200){
+          this.$Message.success(res.data.msg);
+          this.page.total--
+          vm.$emit('input', params.tableData.filter((item, index) => index !== params.row.initRowIndex))
+          if((this.page.total % this.page.pageSize) == 0){
+            this.reloadTable(this.page.page - 1);
+          } 
+        }else{
+          this.$Message.error(res.data.msg);
+        }
+      })
+    },
+    //监听弹出框关闭
+    handleModalClose() {
+
+    },
+    //监听弹出框确认按钮
+    handleMyModalOk() {
+
+    },
+    //表单重置
+    formReset (all = true) {
+      this.$refs.sform.resetFields();
+      if(all){
+        this.formField.{$pk} = ''
+      }
+    },
+    //导出
+    exportExcel () {
+      this.$refs.tables.exportCsv({
+        filename: `table-${(new Date()).valueOf()}.csv`
+      })
+    },
+    //表格重载
+    reloadTable (page) {
+      let curr = page ? page : this.page.page
+      this.loading = true
+      {$api['listApi']}({ page: curr, pageSize: this.page.pageSize }).then(res => {
+        this.page.total = res.data.count
+        this.tableData = res.data.data
+        this.page.page = curr
+        this.loading = false
+      })
+    }
+  },
+  //挂载后方法
+  mounted () {
+    let {
+      page,
+      pageSize
+    } = this.page
+    {$api['listApi']}({ page, pageSize }).then(res => {
+      this.page.total = res.data.count
+      this.tableData = res.data.data
+      this.loading = false
+    })
+  }
+}
+</script>
+<style>
+
+</style>

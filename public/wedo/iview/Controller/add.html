@@ -1,0 +1,20 @@
+/**
+     * @api {post} {$uperName}/Create 
+     * @apiDescription 
+     * @apiName Create
+     * @apiGroup {$apiGroup}
+     
+     * @apiParam 
+     * @apiSuccess  code 返回200
+     * @apiSampleRequest {$domain}/{$rest}/create
+     * @apiVersion 1.0.0
+     */
+	public function create(){
+	    $data = $this->request;
+		$flag = $this->model->add($data);
+		if($flag){
+			out_info(200,'添加成功');
+		}else{
+			out_info(200,'添加失败');
+		}
+	}

@@ -1,0 +1,20 @@
+/**
+     * @api {delete} {$uperName}/Delete 
+     * @apiDescription 
+     * @apiName Delete
+     * @apiGroup {$apiGroup}
+     
+     * @apiParam {int}  id 主键
+     * @apiSuccess  code 返回200
+     * @apiSampleRequest {$domain}/{$rest}
+     
+     * @apiVersion 1.0.0
+     */
+	public function delete(){
+		$flag = $this->model->del($this->request);
+		if($flag){
+			return out_info(200,'删除成功');
+		}else{
+			return out_info(500,'资源不存在删除失败');
+		}
+	}

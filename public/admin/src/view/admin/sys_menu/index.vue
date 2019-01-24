@@ -1,0 +1,246 @@
+<template>
+  <div>
+    <Card shadow>
+      <div class="search-con search-con-top">
+        <Button type="primary" icon="md-add" @click="addData()">新增</Button>
+      </div>
+      <tree-table expand-key="title" :expand-type="false" :selectable="false" :columns="columns" :data="data" >
+        <template slot="icon" slot-scope="scope">
+          <Icon :type="scope.row.icon" />
+        </template>
+        <template slot="options" slot-scope="scope">
+          <Button @click="editData(scope.row)" type="success" size="small" style="marginRight:5px;">修改</Button>
+          <Button @click="handleDelete(scope)" type="error" size="small">删除</Button>
+        </template>
+        <template slot="menuType" slot-scope="scope">
+          <Tag color="green" v-if="scope.row.type == 0">菜单</Tag>
+          <Tag color="purple" v-else >按钮</Tag>
+        </template>
+      </tree-table>
+    </Card>
+    <Drawer
+        :title="drawer.title"
+        v-model="drawer.show"
+        width="50"
+        show-message
+        :mask-closable="false"
+    >
+      <Form ref="sform" :model="formField">
+          <Row :gutter="32">
+              <Col span="12">
+                  <FormItem label="菜单名称" label-position="top" prop="title" required>
+                      <Input v-model="formField.title" placeholder="请输入菜单名称" />
+                  </FormItem>
+              </Col>
+              <Col span="12">
+                <FormItem label="父菜单" label-position="top" prop="parent_id">
+                    <Select v-model="formField.parent_id" placeholder="请选择父级">
+                      <template v-for="item in data">
+                        <Option :value="item.menu_id" :label="item.title" v-if="item.type == 0"><span style="fontWeight:600;">{{ item.title }}</span></Option>
+                        <template v-for="sec in item.children">
+                          <Option  :value="sec.menu_id" :label="sec.title" v-if="sec.type == 0"><span style="paddingLeft:10px;">{{ sec.title }}</span></Option>
+                            <Option v-for="thr in sec.children" v-if="thr.type == 0"  :value="thr.menu_id" :label="thr.title"><span style="paddingLeft:20px;">{{ thr.title }}</span></Option>
+                        </template>
+                      </template>
+                    </Select>
+                </FormItem>
+              </Col>
+          </Row>
+          <Row :gutter="32">
+              <Col span="12">
+                  <FormItem label="路由名称" label-position="top"  prop="name">
+                      <Input v-model="formField.name" placeholder="请输入路由名称" />
+                  </FormItem>
+              </Col>
+              <Col span="12">
+                  <FormItem label="路由" label-position="top" prop="path">
+                      <Input v-model="formField.path" placeholder="请输入路由" />
+                  </FormItem>
+              </Col>
+          </Row>
+          <Row :gutter="32">
+            <Col span="12">
+                <FormItem label="组件(顶级菜单请置空)" label-position="top" prop="component" >
+                    <Input v-model="formField.component" placeholder="请输入路由" />
+                </FormItem>
+            </Col>
+            <Col span="12">
+                <FormItem label="LOGO" label-position="top" prop="icon">
+                    <Input v-model="formField.icon" placeholder="请输入LOGO" >
+                      <Icon :type="formField.icon" slot="prefix" />
+                    </Input>
+                </FormItem>
+            </Col>
+          </Row>
+          <Row :gutter="32">
+            <Col span="12">
+                <FormItem label="类型" label-position="top" required prop="type">
+                    <Select v-model="formField.type" placeholder="请选择类型">
+                        <Option value="0">菜单</Option>
+                        <Option value="1">按钮</Option>
+                    </Select>
+                </FormItem>
+            </Col>
+            <Col span="12">
+                <FormItem label="排序" label-position="top" required prop="sort">
+                    <InputNumber :min="0" v-model="formField.sort" style="width:100%;"></InputNumber>
+                </FormItem>
+            </Col>
+          </Row>
+          <FormItem>
+              <Button type="primary" @click="handleForm()" >保存</Button>
+              <Button type="warning" style="marginLeft: 8px" @click="formReset(false)">重置</Button>
+              <Button style="marginLeft: 8px" @click="drawer.show = false">取消</Button>
+          </FormItem>
+        </Form>
+    </Drawer>
+  </div>
+</template>
+
+<script>
+import './index.less'
+import { getMenuData, createMenu, updateMenu, deleteMenu } from '@/api/data'
+export default {
+  name: 'menu_page',
+  data () {
+    return {
+      columns: [
+        {
+          title: '菜单名称',
+          key: 'title',
+          minWidth: '100px'
+        },
+        {
+          title: 'LOGO',
+          key: 'icon',
+          type: 'template',
+          template: 'icon'
+        },
+        {
+          title: '路由名称',
+          key: 'name'
+        },
+        {
+          title: '路由',
+          key: 'path'
+        },
+        {
+          title: '组件',
+          key: 'component'
+        },
+        {
+          title: '排序',
+          key: 'sort'
+        },
+        {
+          title: '类型',
+          key: 'type',
+          type: 'template',
+          template: 'menuType'
+        },
+        {
+          title: '操作',
+          key: '',
+          minWidth: '150px',
+          type: 'template',
+          template: 'options'
+        }
+      ],
+      data: [],
+      drawer: {
+        title: '',
+        show: false
+      },
+      formField: {
+        title: '',
+        name: '',
+        path: '',
+        component: '',
+        icon: '',
+        type: '',
+        sort: 0,
+        parent_id: '',
+        menu_id: '',
+        save_type: ''
+      }
+    }
+  },
+  
+  methods: {
+    addData () {
+      this.drawer.title = '菜单添加'
+      this.drawer.show = true
+      this.formReset()
+      this.formField.save_type = 1
+    },
+    editData (oldData) {
+      this.drawer.title = '菜单修改'
+      for (let key in this.formField){
+        this.formField[key] = oldData[key]
+      }
+      this.formField.id = oldData.menu_id
+      this.formField.save_type = 2
+      this.drawer.show = true
+      console.log(this.formField)
+    },
+    handleForm () {
+      if(this.formField.save_type == 1){
+        createMenu(this.formField).then(res => {
+          if(res.data.code == 200){
+            this.drawer.show = false
+            this.$Message.success(res.data.msg)
+            this.reloadTable()
+          }else{
+            this.$Message.error(res.data.msg)
+          }
+        })
+      }else if(this.formField.save_type == 2){
+        updateMenu(this.formField).then(res => {
+          if(res.data.code == 200){
+            this.drawer.show = false
+            this.$Message.success(res.data.msg)
+            this.reloadTable()
+          }else{
+            this.$Message.error(res.data.msg)
+          }
+        })
+      }
+    },
+    handleDelete (params) {
+      let id = params.row.menu_id
+      deleteMenu(id).then(res => {
+        if(res.data.code == 200){
+          this.$Message.success(res.data.msg)
+          this.reloadTable()
+        }else{
+          this.$Message.error(res.data.msg)
+        }
+      })
+    },
+    formReset (all = true) {
+      this.$refs.sform.resetFields();
+      if(all){
+          this.formField.menu_id = ''
+      }
+      console.log(this.formField)
+    },
+    reloadTable () {
+      this.loading = true
+      getMenuData().then(res => {
+        this.data = res.data.data
+        this.loading = false
+      })
+    }
+  },
+  mounted () {
+    getMenuData().then(res => {
+      console.log(res)
+      this.data = res.data.data
+    })
+  }
+}
+</script>
+
+<style>
+
+</style>

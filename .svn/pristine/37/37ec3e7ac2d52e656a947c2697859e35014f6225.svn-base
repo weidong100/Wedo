@@ -1,0 +1,22 @@
+/**
+     * @api {get} {$uperName}/Index 
+     * @apiDescription 
+     * @apiName Index
+     * @apiGroup {$apiGroup}
+     * @apiParam {int} page 页码
+     * @apiParam {int} pageSize 分页大小
+     * @apiSuccess  code 返回200
+     * @apiSampleRequest {$domain}/{$rest}
+     
+     * @apiVersion 1.0.0
+     */
+    public function index(){
+        $page = input('page',1);
+        $pageSize = input('pageSize',10);
+        $data = input();
+        unset($data['page']);
+        unset($data['pageSize']);
+        $where = $data;
+        $result = $this->model->lists($page, $pageSize, $where);
+        out_info(200, 'success', $result['data'], $result['count']);
+    }

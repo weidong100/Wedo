@@ -1,0 +1,6 @@
+//列表
+    public function lists($page, $pageSize, $where){
+        $result['count'] = $this->db->where($where)->count();
+        $result['data'] = $this->db->where($where)->page($page,$pageSize)->select();
+        return $result;
+    }

@@ -1,0 +1,1629 @@
+[
+  {
+    "type": "post",
+    "url": "dept/create",
+    "title": "部门添加",
+    "description": "<p>部门添加</p>",
+    "name": "create",
+    "group": "Department",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "name",
+            "description": "<p>部门名称</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "order_num",
+            "description": "<p>排序</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "parent_id",
+            "description": "<p>父节点</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "code",
+            "description": "<p>返回200</p>"
+          }
+        ]
+      }
+    },
+    "sampleRequest": [
+      {
+        "url": "http://basedemo.weidong100.com/dept/create"
+      }
+    ],
+    "version": "1.0.0",
+    "filename": "/newdir/wwwroot/basedemo.weidong100.com/application/adminapi/controller/Department.php",
+    "groupTitle": "Department"
+  },
+  {
+    "type": "delete",
+    "url": "dept/delete",
+    "title": "删除部门",
+    "description": "<p>删除部门</p>",
+    "name": "delete",
+    "group": "Department",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "dept_id",
+            "description": "<p>部门ID</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "code",
+            "description": "<p>返回200</p>"
+          }
+        ]
+      }
+    },
+    "sampleRequest": [
+      {
+        "url": "http://basedemo.weidong100.com/dept"
+      }
+    ],
+    "version": "1.0.0",
+    "filename": "/newdir/wwwroot/basedemo.weidong100.com/application/adminapi/controller/Department.php",
+    "groupTitle": "Department"
+  },
+  {
+    "type": "get",
+    "url": "dept",
+    "title": "部门列表",
+    "description": "<p>部门列表</p>",
+    "name": "index",
+    "group": "Department",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "name",
+            "description": "<p>部门名称</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "int",
+            "optional": false,
+            "field": "page",
+            "description": "<p>页码</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "int",
+            "optional": false,
+            "field": "pageSize",
+            "description": "<p>分页大小</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "code",
+            "description": "<p>返回200</p>"
+          }
+        ]
+      }
+    },
+    "sampleRequest": [
+      {
+        "url": "http://basedemo.weidong100.com/dept"
+      }
+    ],
+    "version": "1.0.0",
+    "filename": "/newdir/wwwroot/basedemo.weidong100.com/application/adminapi/controller/Department.php",
+    "groupTitle": "Department"
+  },
+  {
+    "type": "get",
+    "url": "dept/read",
+    "title": "部门信息",
+    "description": "<p>查询单个部门信息</p>",
+    "name": "read",
+    "group": "Department",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "dept_id",
+            "description": "<p>部门ID</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "code",
+            "description": "<p>返回200</p>"
+          }
+        ]
+      }
+    },
+    "sampleRequest": [
+      {
+        "url": "http://basedemo.weidong100.com/dept"
+      }
+    ],
+    "version": "1.0.0",
+    "filename": "/newdir/wwwroot/basedemo.weidong100.com/application/adminapi/controller/Department.php",
+    "groupTitle": "Department"
+  },
+  {
+    "type": "put",
+    "url": "dept/update",
+    "title": "部门更新",
+    "description": "<p>部门信息更新</p>",
+    "name": "update",
+    "group": "Department",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "name",
+            "description": "<p>部门名称</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "order_num",
+            "description": "<p>排序</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "parent_id",
+            "description": "<p>父节点</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "dept_id",
+            "description": "<p>部门ID</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "code",
+            "description": "<p>返回200</p>"
+          }
+        ]
+      }
+    },
+    "sampleRequest": [
+      {
+        "url": "http://basedemo.weidong100.com/dept"
+      }
+    ],
+    "version": "1.0.0",
+    "filename": "/newdir/wwwroot/basedemo.weidong100.com/application/adminapi/controller/Department.php",
+    "groupTitle": "Department"
+  },
+  {
+    "type": "post",
+    "url": "Dict/Create",
+    "title": "字典添加",
+    "description": "<p>这个接口是用来在字典管理中新增数据</p>",
+    "name": "Create",
+    "group": "Dict",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "value",
+            "description": "<p>数据值</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "label",
+            "description": "<p>标签名</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "type",
+            "description": "<p>类型</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "description",
+            "description": "<p>描述</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "sort",
+            "description": "<p>排序</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "remarks",
+            "description": "<p>备注信息</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "del_flag",
+            "description": "<p>删除标记</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "code",
+            "description": "<p>返回200</p>"
+          }
+        ]
+      }
+    },
+    "sampleRequest": [
+      {
+        "url": "http://basedemo.weidong100.com/dict/create"
+      }
+    ],
+    "version": "1.0.0",
+    "filename": "/newdir/wwwroot/basedemo.weidong100.com/application/adminapi/controller/Dict.php",
+    "groupTitle": "Dict"
+  },
+  {
+    "type": "delete",
+    "url": "Dict/Delete",
+    "title": "字典删除数据",
+    "description": "<p>这个接口是用来在字典管理中删除数据</p>",
+    "name": "DeleteDict",
+    "group": "Dict",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "int",
+            "optional": false,
+            "field": "id",
+            "description": "<p>获取点击的ID</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "code",
+            "description": "<p>返回200</p>"
+          }
+        ]
+      }
+    },
+    "sampleRequest": [
+      {
+        "url": "http://basedemo.weidong100.com/dict/delete"
+      }
+    ],
+    "version": "1.0.0",
+    "filename": "/newdir/wwwroot/basedemo.weidong100.com/application/adminapi/controller/Dict.php",
+    "groupTitle": "Dict"
+  },
+  {
+    "type": "get",
+    "url": "Dict/Index",
+    "title": "",
+    "description": "<p>预算列表</p>",
+    "name": "Index",
+    "group": "Dict",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "value",
+            "description": "<p>数据值</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "label",
+            "description": "<p>标签名</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "type",
+            "description": "<p>类型</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "page",
+            "description": "<p>页码</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "pageSize",
+            "description": "<p>分页大小</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "code",
+            "description": "<p>返回200</p>"
+          }
+        ]
+      }
+    },
+    "sampleRequest": [
+      {
+        "url": "http://basedemo.weidong100.com/dict"
+      }
+    ],
+    "version": "1.0.0",
+    "filename": "/newdir/wwwroot/basedemo.weidong100.com/application/adminapi/controller/Dict.php",
+    "groupTitle": "Dict"
+  },
+  {
+    "type": "get",
+    "url": "Dict/Read",
+    "title": "字典列表",
+    "description": "<p>这个接口是用来查询字典中的数据</p>",
+    "name": "Read",
+    "group": "Dict",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "code",
+            "description": "<p>返回200</p>"
+          }
+        ]
+      }
+    },
+    "sampleRequest": [
+      {
+        "url": "http://basedemo.weidong100.com/dict/read"
+      }
+    ],
+    "version": "1.0.0",
+    "filename": "/newdir/wwwroot/basedemo.weidong100.com/application/adminapi/controller/Dict.php",
+    "groupTitle": "Dict"
+  },
+  {
+    "type": "put",
+    "url": "Dict/Update",
+    "title": "字典修改",
+    "description": "<p>这个接口是用来在字典管理中修改数据</p>",
+    "name": "Update",
+    "group": "Dict",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "int",
+            "optional": false,
+            "field": "id",
+            "description": "<p>获取点击的ID</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "value",
+            "description": "<p>数据值</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "label",
+            "description": "<p>标签名</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "type",
+            "description": "<p>类型</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "description",
+            "description": "<p>描述</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "sort",
+            "description": "<p>排序</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "remarks",
+            "description": "<p>备注信息</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "del_flag",
+            "description": "<p>删除标记</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "code",
+            "description": "<p>返回200</p>"
+          }
+        ]
+      }
+    },
+    "sampleRequest": [
+      {
+        "url": "http://basedemo.weidong100.com/dict/update"
+      }
+    ],
+    "version": "1.0.0",
+    "filename": "/newdir/wwwroot/basedemo.weidong100.com/application/adminapi/controller/Dict.php",
+    "groupTitle": "Dict"
+  },
+  {
+    "type": "delete",
+    "url": "Menu/Delete",
+    "title": "菜单删除",
+    "description": "<p>这个接口是用来删除菜单管理的</p>",
+    "name": "DeleteMenu",
+    "group": "Menu",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "int",
+            "optional": false,
+            "field": "id",
+            "description": "<p>获取点击修改的ID</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "code",
+            "description": "<p>返回200</p>"
+          }
+        ]
+      }
+    },
+    "sampleRequest": [
+      {
+        "url": "http://basedemo.weidong100.com/menu/5"
+      }
+    ],
+    "version": "1.0.0",
+    "filename": "/newdir/wwwroot/basedemo.weidong100.com/application/adminapi/controller/Menu.php",
+    "groupTitle": "Menu"
+  },
+  {
+    "type": "get",
+    "url": "Menu/Index",
+    "title": "",
+    "description": "<p>@apiName Index</p>",
+    "group": "Menu",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "name",
+            "description": "<p>菜单名称</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "permission",
+            "description": "<p>菜单权限标识</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "path",
+            "description": "<p>前端URL</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "parent_id",
+            "description": "<p>父菜单ID</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "type",
+            "description": "<p>菜单类型</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "page",
+            "description": "<p>页码</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "pageSize",
+            "description": "<p>分页大小</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "code",
+            "description": "<p>返回200</p>"
+          }
+        ]
+      }
+    },
+    "sampleRequest": [
+      {
+        "url": "http://basedemo.weidong100.com/menu"
+      }
+    ],
+    "version": "1.0.0",
+    "filename": "/newdir/wwwroot/basedemo.weidong100.com/application/adminapi/controller/Menu.php",
+    "groupTitle": "Menu",
+    "name": "GetMenuIndex"
+  },
+  {
+    "type": "put",
+    "url": "Menu/Update",
+    "title": "菜单更新",
+    "description": "<p>这个接口是用来修改菜单管理的</p>",
+    "name": "Update",
+    "group": "Menu",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "init",
+            "optional": false,
+            "field": "id",
+            "description": "<p>获取点击修改的ID</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "name",
+            "description": "<p>菜单名称</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "permission",
+            "description": "<p>菜单权限标识</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "path",
+            "description": "<p>前段URL</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "parent_id",
+            "description": "<p>父菜单ID</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "icon",
+            "description": "<p>图标</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "component",
+            "description": "<p>VUE界面</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "sort",
+            "description": "<p>排序值</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "type",
+            "description": "<p>菜单类型（0菜单 1按钮）</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "del_flag",
+            "description": "<p>0-正常 1-删除</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "code",
+            "description": "<p>返回200</p>"
+          }
+        ]
+      }
+    },
+    "sampleRequest": [
+      {
+        "url": "http://basedemo.weidong100.com/menu"
+      }
+    ],
+    "version": "1.0.0",
+    "filename": "/newdir/wwwroot/basedemo.weidong100.com/application/adminapi/controller/Menu.php",
+    "groupTitle": "Menu"
+  },
+  {
+    "type": "post",
+    "url": "Menu/Create",
+    "title": "菜单添加",
+    "description": "<p>这个接口是用来添加菜单管理的</p>",
+    "name": "create",
+    "group": "Menu",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "name",
+            "description": "<p>菜单名称</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "permission",
+            "description": "<p>菜单权限标识</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "path",
+            "description": "<p>前端URL</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "parent_id",
+            "description": "<p>父菜单ID</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "icon",
+            "description": "<p>图标</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "component",
+            "description": "<p>VUE界面</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "sort",
+            "description": "<p>排序值</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "type",
+            "description": "<p>菜单类型（0菜单 1按钮）</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "code",
+            "description": "<p>返回200</p>"
+          }
+        ]
+      }
+    },
+    "sampleRequest": [
+      {
+        "url": "http://basedemo.weidong100.com/menu/create"
+      }
+    ],
+    "version": "1.0.0",
+    "filename": "/newdir/wwwroot/basedemo.weidong100.com/application/adminapi/controller/Menu.php",
+    "groupTitle": "Menu"
+  },
+  {
+    "type": "get",
+    "url": "Menu/doLogin",
+    "title": "",
+    "description": "<p>登录</p>",
+    "name": "doLogin",
+    "group": "Menu",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "username",
+            "description": "<p>用户名</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "password",
+            "description": "<p>用户密码</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "code",
+            "description": "<p>返回200</p>"
+          }
+        ]
+      }
+    },
+    "sampleRequest": [
+      {
+        "url": "http://basedemo.weidong100.com/adminapi/menu/doLogin"
+      }
+    ],
+    "version": "1.0.0",
+    "filename": "/newdir/wwwroot/basedemo.weidong100.com/application/adminapi/controller/Menu.php",
+    "groupTitle": "Menu"
+  },
+  {
+    "type": "get",
+    "url": "Menu/read",
+    "title": "查询列表",
+    "description": "<p>这个接口是用来查询菜单的列表内容的</p>",
+    "name": "read",
+    "group": "Menu",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "code",
+            "description": "<p>返回200</p>"
+          }
+        ]
+      }
+    },
+    "sampleRequest": [
+      {
+        "url": "http://basedemo.weidong100.com/menu/read"
+      }
+    ],
+    "version": "1.0.0",
+    "filename": "/newdir/wwwroot/basedemo.weidong100.com/application/adminapi/controller/Menu.php",
+    "groupTitle": "Menu"
+  },
+  {
+    "type": "post",
+    "url": "role/auth",
+    "title": "权限分配",
+    "description": "<p>权限分配</p>",
+    "name": "auth",
+    "group": "Role",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "role_id",
+            "description": "<p>角色ID</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "menuIds",
+            "description": "<p>菜单ID集合</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "code",
+            "description": "<p>返回200</p>"
+          }
+        ]
+      }
+    },
+    "sampleRequest": [
+      {
+        "url": "http://basedemo.weidong100.com/adminapi/role/auth"
+      }
+    ],
+    "version": "1.0.0",
+    "filename": "/newdir/wwwroot/basedemo.weidong100.com/application/adminapi/controller/Role.php",
+    "groupTitle": "Role"
+  },
+  {
+    "type": "post",
+    "url": "role/create",
+    "title": "添加角色",
+    "description": "<p>添加角色</p>",
+    "name": "create",
+    "group": "Role",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "role_name",
+            "description": "<p>角色名称</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "role_code",
+            "description": "<p>角色标识</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "role_desc",
+            "description": "<p>角色描述</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "dept_id",
+            "description": "<p>部门ID</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "code",
+            "description": "<p>返回200</p>"
+          }
+        ]
+      }
+    },
+    "sampleRequest": [
+      {
+        "url": "http://basedemo.weidong100.com/role/create"
+      }
+    ],
+    "version": "1.0.0",
+    "filename": "/newdir/wwwroot/basedemo.weidong100.com/application/adminapi/controller/Role.php",
+    "groupTitle": "Role"
+  },
+  {
+    "type": "delete",
+    "url": "role/delete",
+    "title": "删除角色",
+    "description": "<p>删除角色</p>",
+    "name": "delete",
+    "group": "Role",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "role_id",
+            "description": "<p>角色ID</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "code",
+            "description": "<p>返回200</p>"
+          }
+        ]
+      }
+    },
+    "sampleRequest": [
+      {
+        "url": "http://basedemo.weidong100.com/role"
+      }
+    ],
+    "version": "1.0.0",
+    "filename": "/newdir/wwwroot/basedemo.weidong100.com/application/adminapi/controller/Role.php",
+    "groupTitle": "Role"
+  },
+  {
+    "type": "get",
+    "url": "role",
+    "title": "角色列表",
+    "description": "<p>部门角色列表</p>",
+    "name": "index",
+    "group": "Role",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "role_name",
+            "description": "<p>角色名称</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "dept_id",
+            "description": "<p>部门ID</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "page",
+            "description": "<p>页码</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "pageSize",
+            "description": "<p>分页大小</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "code",
+            "description": "<p>返回200</p>"
+          }
+        ]
+      }
+    },
+    "sampleRequest": [
+      {
+        "url": "http://basedemo.weidong100.com/role"
+      }
+    ],
+    "version": "1.0.0",
+    "filename": "/newdir/wwwroot/basedemo.weidong100.com/application/adminapi/controller/Role.php",
+    "groupTitle": "Role"
+  },
+  {
+    "type": "get",
+    "url": "role/read",
+    "title": "查询角色",
+    "description": "<p>根据id查询某个角色</p>",
+    "name": "read",
+    "group": "Role",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "role_id",
+            "description": "<p>角色ID</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "code",
+            "description": "<p>返回200</p>"
+          }
+        ]
+      }
+    },
+    "sampleRequest": [
+      {
+        "url": "http://basedemo.weidong100.com/role"
+      }
+    ],
+    "version": "1.0.0",
+    "filename": "/newdir/wwwroot/basedemo.weidong100.com/application/adminapi/controller/Role.php",
+    "groupTitle": "Role"
+  },
+  {
+    "type": "put",
+    "url": "role/update",
+    "title": "更新角色",
+    "description": "<p>更新角色</p>",
+    "name": "update",
+    "group": "Role",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "role_id",
+            "description": "<p>部门ID</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "role_name",
+            "description": "<p>角色名称</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "role_code",
+            "description": "<p>角色标识</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "role_desc",
+            "description": "<p>角色描述</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "dept_id",
+            "description": "<p>部门ID</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "code",
+            "description": "<p>返回200</p>"
+          }
+        ]
+      }
+    },
+    "sampleRequest": [
+      {
+        "url": "http://basedemo.weidong100.com/role"
+      }
+    ],
+    "version": "1.0.0",
+    "filename": "/newdir/wwwroot/basedemo.weidong100.com/application/adminapi/controller/Role.php",
+    "groupTitle": "Role"
+  },
+  {
+    "type": "post",
+    "url": "user/create",
+    "title": "添加用户",
+    "description": "<p>添加用户</p>",
+    "name": "create",
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "username",
+            "description": "<p>用户名</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "password",
+            "description": "<p>登录密码</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "salt",
+            "description": "<p>随机数</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "phone",
+            "description": "<p>联系方式</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "avatar",
+            "description": "<p>头像</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "role_id",
+            "description": "<p>角色ID</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "dept_id",
+            "description": "<p>部门ID</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "wx_openid",
+            "description": "<p>微信openid</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "qq_openid",
+            "description": "<p>QQopenid</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "code",
+            "description": "<p>返回200</p>"
+          }
+        ]
+      }
+    },
+    "sampleRequest": [
+      {
+        "url": "http://basedemo.weidong100.com/user/create"
+      }
+    ],
+    "version": "1.0.0",
+    "filename": "/newdir/wwwroot/basedemo.weidong100.com/application/adminapi/controller/User.php",
+    "groupTitle": "User"
+  },
+  {
+    "type": "delete",
+    "url": "user/delete",
+    "title": "删除用户",
+    "description": "<p>删除用户</p>",
+    "name": "delete",
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "user_id",
+            "description": "<p>用户ID</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "code",
+            "description": "<p>返回200</p>"
+          }
+        ]
+      }
+    },
+    "sampleRequest": [
+      {
+        "url": "http://basedemo.weidong100.com/user"
+      }
+    ],
+    "version": "1.0.0",
+    "filename": "/newdir/wwwroot/basedemo.weidong100.com/application/adminapi/controller/User.php",
+    "groupTitle": "User"
+  },
+  {
+    "type": "get",
+    "url": "user",
+    "title": "用户列表",
+    "description": "<p>用户部门角色列表</p>",
+    "name": "index",
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "username",
+            "description": "<p>用户名</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "role_id",
+            "description": "<p>角色ID</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "dept_id",
+            "description": "<p>部门ID</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "page",
+            "description": "<p>页码</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "pageSize",
+            "description": "<p>分页大小</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "code",
+            "description": "<p>返回200</p>"
+          }
+        ]
+      }
+    },
+    "sampleRequest": [
+      {
+        "url": "http://basedemo.weidong100.com/user"
+      }
+    ],
+    "version": "1.0.0",
+    "filename": "/newdir/wwwroot/basedemo.weidong100.com/application/adminapi/controller/User.php",
+    "groupTitle": "User"
+  },
+  {
+    "type": "get",
+    "url": "user/read",
+    "title": "用户信息",
+    "description": "<p>查询单个用户信息</p>",
+    "name": "read",
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "user_id",
+            "description": "<p>用户ID</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "code",
+            "description": "<p>返回200</p>"
+          }
+        ]
+      }
+    },
+    "sampleRequest": [
+      {
+        "url": "http://basedemo.weidong100.com/user"
+      }
+    ],
+    "version": "1.0.0",
+    "filename": "/newdir/wwwroot/basedemo.weidong100.com/application/adminapi/controller/User.php",
+    "groupTitle": "User"
+  },
+  {
+    "type": "PUT",
+    "url": "user/update",
+    "title": "更新用户信息",
+    "description": "<p>更新用户信息</p>",
+    "name": "update",
+    "group": "User",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "user_id",
+            "description": "<p>用户ID</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "username",
+            "description": "<p>用户名</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "password",
+            "description": "<p>登录密码</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "phone",
+            "description": "<p>联系方式</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "avatar",
+            "description": "<p>头像</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "role_id",
+            "description": "<p>角色ID</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "dept_id",
+            "description": "<p>部门ID</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "wx_openid",
+            "description": "<p>微信openid</p>"
+          },
+          {
+            "group": "Parameter",
+            "type": "string",
+            "optional": false,
+            "field": "qq_openid",
+            "description": "<p>QQopenid</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "optional": false,
+            "field": "code",
+            "description": "<p>返回200</p>"
+          }
+        ]
+      }
+    },
+    "sampleRequest": [
+      {
+        "url": "http://basedemo.weidong100.com/user"
+      }
+    ],
+    "version": "1.0.0",
+    "filename": "/newdir/wwwroot/basedemo.weidong100.com/application/adminapi/controller/User.php",
+    "groupTitle": "User"
+  }
+]

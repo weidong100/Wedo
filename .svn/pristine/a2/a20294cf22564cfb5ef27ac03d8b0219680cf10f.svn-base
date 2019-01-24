@@ -1,0 +1,16 @@
+/** 
+     * @api {get} {$uperName}/Read 
+     * @apiDescription 
+     * @apiName Read
+     * @apiGroup {$apiGroup}
+     
+     * @apiParam {int}  id 主键
+     * @apiSuccess  code 返回200  
+     * @apiSampleRequest {$domain}/{$rest}
+     
+     * @apiVersion 1.0.0
+     */
+    public function read(){
+        $result = $this->model->info($this->request);
+        return out_info(200,'success',$result);
+    }

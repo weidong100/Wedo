@@ -1,0 +1,21 @@
+/**
+     * @api {put} {$uperName}/Update 
+     * @apiDescription 
+     * @apiName Update
+     * @apiGroup {$apiGroup}
+     
+     * @apiParam {int}  id 主键
+     * @apiSuccess  code 返回200
+     * @apiSampleRequest {$domain}/{$rest}
+     
+     * @apiVersion 1.0.0
+     */
+	public function update(){
+		$flag = $this->model->edit($this->request);
+		if($flag){
+			out_info(200,'修改成功');
+		}else{
+			out_info(500,'修改失败');
+		}
+		
+	}
