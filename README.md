@@ -11,6 +11,20 @@ UI框架使用iview-admin，官网：https://www.iviewui.com/；
 接口文档使用apidoc，官网：http://apidocjs.com/;
 
 
+
+安装步骤：
+
+1、配置数据库：application/database.php
+
+2、配置VUE：public/admin/vue.config.js   ,现在默认是localhost
+
+3、命令行：在public/admin下执行npm install，然后npm run dev
+
+   说明npm install 失败，可以使用npm淘宝镜像：http://npm.taobao.org/，然后cnpm install
+
+4、进入后台，开始你的表演
+
+
 接口生成： 
 
 1、选择你要生成文件的模块； 
@@ -44,9 +58,11 @@ UI框架使用iview-admin，官网：https://www.iviewui.com/；
 
 学历，使用下拉框，同时，你可以为该下拉框配置数据源接口。 
 
-5、生成文件。
+5、自定义界面中的按钮；
 
-这个环节，可以完成后台开发工作至少一半以上的工作量，剩下就是在此基础上写逻辑代码......
+6、生成文件。
+
+剩下就是在此基础上写逻辑代码......
 
 如果你只需要生成接口文件，则只进行第一步操作即可
 
