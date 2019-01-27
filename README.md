@@ -11,6 +11,24 @@ UI框架使用iview-admin，官网：https://www.iviewui.com/；
 接口文档使用apidoc，官网：http://apidocjs.com/;
 
 
+系统默认
+
+1、后台接口默认都写在application/adminapi模块
+
+2、统一文件上传接口：adminapi/store/upload，你可以在public/admin/src/config/index.js中修改其他上传接口地址；
+
+3、前端模板，系统自身功能界面都放在public/admin/src/view/admin中，你创建的界面，可以放在public/admin/src/view/下面；
+
+4、前端的请求接口都封装到与控制器名称一致的JS接口，都放在public/admin/src/api文件夹下面；
+
+5、接口文档，生成在public/apidoc中；
+
+6、上传文件存放在public/uploads文件夹中；
+
+7、我们把常用的功能接口，都写在adminapi/store中，例如上传接口；
+
+8、配置文件：application/extra中store.php配置上传参数、site.php配置站点名称和api文档中的域名一致；
+
 
 安装步骤：
 
@@ -18,9 +36,9 @@ UI框架使用iview-admin，官网：https://www.iviewui.com/；
 
 2、配置VUE：public/admin/vue.config.js   ,现在默认是localhost
 
-3、命令行：在public/admin下执行npm install，然后npm run dev
+3、命令行：在public/admin下执行npm install，然后npm run dev，打包npm run build
 
-   说明npm install 失败，可以使用npm淘宝镜像：http://npm.taobao.org/，然后cnpm install
+   注：npm install 失败，可以使用npm淘宝镜像：http://npm.taobao.org/，然后cnpm install
 
 4、进入后台，开始你的表演
 
@@ -60,11 +78,11 @@ UI框架使用iview-admin，官网：https://www.iviewui.com/；
 
 5、自定义界面中的按钮；
 
-6、生成文件。
+6、生成文件：sys_user.js    sys_user/index.vue
 
 剩下就是在此基础上写逻辑代码......
 
-如果你只需要生成接口文件，则只进行第一步操作即可
+如果你只需要生成接口文件，则只进行接口生成操作即可
 
 
 技术qq交流群：
