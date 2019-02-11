@@ -9,41 +9,57 @@ class UserModel extends Model
    public function selectUsers($where,$page,$pageSize){
         $count = Db::name('sys_user')
             ->alias('u')
-            ->join(config('database.prefix').'sys_user_role ur', 'u.user_id=ur.user_id', 'left')
-            ->join(config('database.prefix').'sys_role r', 'ur.role_id=r.role_id', 'left')
             ->join(config('database.prefix').'sys_dept d', 'd.dept_id=u.dept_id', 'left')
             ->where($where)
             ->count();
         $data = Db::name('sys_user')
             ->alias('u')
-            ->field('u.username,u.user_id,u.del_flag,u.dept_id,u.create_time,d.name,d.dept_id,r.role_id,r.role_name')
-            ->join(config('database.prefix').'sys_user_role ur', 'u.user_id=ur.user_id', 'left')
-            ->join(config('database.prefix').'sys_role r', 'ur.role_id=r.role_id', 'left')
+            ->field('u.username,u.user_id,u.del_flag,u.dept_id,u.create_time,d.name as dname,d.dept_id')
             ->join(config('database.prefix').'sys_dept d', 'd.dept_id=u.dept_id', 'left')
             ->where($where)
             ->order('u.user_id')
             ->page($page,$pageSize)
             ->select();
+        $role = db('sys_role');
+        foreach($data as $k => $v){
+            $roleNames = $role
+                        ->alias('r')
+                        ->field('r.role_id,r.role_name')
+                        ->join(config('database.prefix').'sys_user_role ur', 'r.role_id=ur.role_id', 'left')
+                        ->where('ur.user_id',$v['user_id'])->column('r.role_name');
+            $data[$k]['roleName'] = implode(',', $roleNames);
+            $data[$k]['roles'] = $role
+                                ->alias('r')
+                                ->field('r.role_id,r.role_name')
+                                ->join(config('database.prefix').'sys_user_role ur', 'r.role_id=ur.role_id', 'left')
+                                ->where('ur.user_id',$v['user_id'])->select();
+        }
         if (!empty($data)) {
             return out_info(200,"ok",$data,$count);
         } else {
             return out_info(404,"暂无数据");
         }
-        
     }
     
-    public function insertUser($data, $role_id){
+    public function insertUser($data, $roles){
         
         // 启动事务
         Db::startTrans();
         try{
              $num = Db::name('sys_user')->insert($data);
              $userId = Db::name('sys_user')->getLastInsID();
-             Db::name('sys_user_role') ->data(['user_id'=>$userId,'role_id'=>$role_id])->insert();
+             $rarr = explode(',',trim($roles));$uroles = [];
+             foreach($rarr as $k => $v){
+                 $uroles[] = [
+                     'user_id' => $userId,
+                     'role_id' => $v
+                 ];
+             }
+             Db::name('sys_user_role')->insertAll($uroles);
             // 提交事务
             Db::commit();  
             return out_info(200,"添加成功","",$num);
-        } catch (\HttpException $e) {
+        } catch (\Exception $e) {
             // 回滚事务
             Db::rollback();
             return out_info($e->getStatusCode(),"添加失败,".$e->getMessage());

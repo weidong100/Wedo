@@ -17,7 +17,7 @@ export const login = ({ userName, password }) => {
 }
 export const getUserInfo = () => {
   return axios.request({
-    url: '/adminapi/User/read',
+    url: '/ordapi/sys_user/getUserInfo',
     method: 'get'
   })
 }

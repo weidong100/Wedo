@@ -1,35 +1,8 @@
 import Main from '@/components/main'
 import parentView from '@/components/parent-view'
 import store from '@/store'
-import routes from './routers'
-const validatenull = (obj) => {
-    
-    let hasOwnProperty = Object.prototype.hasOwnProperty;
-    if (obj == null) return true;
-    // 然后可以根据长度判断，在低版本的ie浏览器中无法这样判断。
-    if (obj.length > 0)    return false;
-    if (obj.length === 0)  return true;
-    //最后通过属性长度判断。
-    for (let key in obj) {
-        if (hasOwnProperty.call(obj, key)) return false;
-    }
-    return true;
-}
-const findRouter = (name,arr) => {
-  let result = arr.filter(item => {
-    return item.name == name; 
-  })
-  return result.length > 0 ? true : false;
-}
-export const initMenu = (menu,router) => {
-  if (menu.length === 0) {
-    return
-  }
-  let menus = formatRoutes(menu);
-  // 最后添加
-  let unfound = { path: '*',name: 'notfound', redirect: '/404', hidden: true }
-  let selfdefmenus = [
-  
+
+const selfdefmenus = [
   {
     path: '/components',
     name: 'components',
@@ -237,8 +210,6 @@ export const initMenu = (menu,router) => {
       }
     ]
   },
-  
-  
   {
     path: '/directive',
     name: 'directive',
@@ -259,7 +230,34 @@ export const initMenu = (menu,router) => {
       }
     ]
   }
-  ]
+]
+
+const validatenull = (obj) => {
+  let hasOwnProperty = Object.prototype.hasOwnProperty;
+  if (obj == null) return true;
+  // 然后可以根据长度判断，在低版本的ie浏览器中无法这样判断。
+  if (obj.length > 0) return false;
+  if (obj.length === 0)  return true;
+  //最后通过属性长度判断。
+  for (let key in obj) {
+      if (hasOwnProperty.call(obj, key)) return false;
+  }
+  return true;
+}
+
+const findRouter = (name,arr) => {
+  let result = arr.filter(item => {
+    return item.name == name; 
+  })
+  return result.length > 0 ? true : false;
+}
+
+export const initMenu = (menu,router) => {
+  if (menu.length === 0) {
+    return
+  }
+  let menus = formatRoutes(menu);
+  let unfound = { path: '*',name: 'notfound', redirect: '/404', hidden: true }
   menus.push(unfound)
   let s_menus = menus //.concat(selfdefmenus);
   let beforeR = router.options.routes;
@@ -272,12 +270,10 @@ export const initMenu = (menu,router) => {
   })
   router.addRoutes(filterR);
   store.commit('addRouters',s_menus)
-  
 }
 
 export const formatRoutes = (aMenu,router) => {
   const aRouter = []
-  
   aMenu.forEach(oMenu => {
     const obj = {
         path: oMenu.path,
@@ -288,12 +284,14 @@ export const formatRoutes = (aMenu,router) => {
             notCache: true,
             hideInMenu: oMenu.type == 1 ? true : false
         },
-        component: validatenull(oMenu.component) ? Main : (resolve) => require([`./../${oMenu.component}.vue`],resolve),
-        
+        component:  (validatenull(oMenu.component) || oMenu.parent_id == 0)
+                    ? Main 
+                    : (!validatenull(oMenu.children) && oMenu.parent_id != 0) 
+                    ? parentView 
+                    : (resolve) => require([`./../${oMenu.component}.vue`], resolve),
         children: validatenull(oMenu.children) ? [] : formatRoutes(oMenu.children)
-    } 
+    }
     aRouter.push(obj)
-
   })
   return aRouter
 }

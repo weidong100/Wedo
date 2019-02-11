@@ -2,7 +2,7 @@
 namespace app\adminapi\controller;
 use think\Controller;
 use think\Db;
-use app\adminapi\model\OAuthM;
+use OAuthM\OAuthM;
 // use 
 
 class Common extends Controller{

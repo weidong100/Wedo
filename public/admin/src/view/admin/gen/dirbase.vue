@@ -84,7 +84,7 @@
 
 <script>
 import MarkdownEditor from '_c/markdown'
-import {  getDirList, getFileContents } from '@/api/data'
+import {  getDirList, getFileContents } from '@/api/codebase'
 export default {
   name: 'cm_pages',
   components: {

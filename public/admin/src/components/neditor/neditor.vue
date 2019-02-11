@@ -60,9 +60,9 @@ export default {
 <style>
 .my-editor{
   margin-top: 5px;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
 }
 .edui-editor{
-  z-index: 800 !important;
+  z-index: 1000 !important;
 }
 </style>

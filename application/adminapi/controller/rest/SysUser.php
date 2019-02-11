@@ -1,9 +1,10 @@
 <?php
-namespace app\adminapi\controller;
-use think\Controller;
+namespace app\adminapi\controller\rest;
 use app\adminapi\model\UserModel;
+use app\adminapi\controller\Common;
 use think\Db;
-class User extends Common
+
+class SysUser extends Common
 {
     
     /**
@@ -61,11 +62,11 @@ class User extends Common
          $data['password'] = input('password');
          $data['phone'] = input('phone');
          $data['avatar'] = input('avatar');
-         $data['dept_id'] = input('dept_id');
+         $data['dept_id'] = input('dept_id',0);
          $data['wx_openid'] = input('wx_openid');
          $data['qq_openid'] = input('qq_openid');
-         $role_id = input('role_id');
-        return $UserModel->insertUser($data,$role_id);
+         $roles= input('roles');
+        return $UserModel->insertUser($data,$roles);
     }
     
     

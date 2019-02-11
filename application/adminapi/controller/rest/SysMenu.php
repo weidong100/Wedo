@@ -1,5 +1,5 @@
 <?php
-namespace app\adminapi\controller;
+namespace app\adminapi\controller\rest;
 use app\adminapi\controller\Common;
 use think\Db;
 use app\adminapi\model\SysMenu as SysMenumodel;
@@ -39,90 +39,6 @@ class SysMenu extends Common{
         }
         return out_info(200,'获取成功',$result,0,$extra);
     }
-    
-    public function getUserSysMenu()
-    {
-        if(input('access/a')){
-            $map['r.role_code'] = ['in',input('access/a')];
-        }else{
-            $roles = db('sys_role')
-                ->alias('r')
-                ->join(config('database.prefix').'sys_user_role ur','ur.role_id=r.role_id','left')
-                ->where('ur.user_id',session('admin_id'))
-                ->column('r.role_code');
-            if(!in_array('super_admin', $roles)){
-                $map['r.role_code'] = ['in',$roles];
-            }
-        }
-        $menuids = db('sys_role_menu')
-                 ->alias('rm')
-                 ->field('rm.menu_id')
-                 ->join(config('database.prefix').'sys_role r','r.role_id=rm.role_id','left')
-                 ->where($map)
-                 ->distinct(true)
-                 ->column('rm.menu_id');
-        $where['type'] = 0;
-        $where['menu_id'] = ['in', $menuids];
-        $list = db('sys_menu')
-              ->where($where)
-              ->select();
-        foreach($list as $k=>$v){
-            $ac = db('sys_role_menu')
-                ->alias('rm')
-                ->join(config('database.prefix').'sys_role r','rm.role_id=r.role_id','left')
-                ->where('rm.menu_id',$v['menu_id'])
-                ->column('r.role_code');
-            $list[$k]['access'] = $ac;
-        }
-        $list = node_merge($list);
-
-        $buttons = db('sys_menu')
-                 ->where('type', 1)
-                 ->where('parent_id', 'in', $menuids)
-                 ->select();
-        foreach($buttons as $k=>$v){
-            $ac = db('sys_role_menu')
-                ->alias('rm')
-                ->join(config('database.prefix').'sys_role r','rm.role_id=r.role_id','left')
-                ->where('rm.menu_id', $v['menu_id'])
-                ->column('r.role_code');
-            $buttons[$k]['access'] = $ac;
-        }
-        return json(['code'=>200,'data'=>$list,'extra'=>$buttons]);
-    }
-    
-     /**
-     * @api {get} SysMenu/doLogin 
-     * @apiDescription 登录
-     * @apiName doLogin
-     * @apiGroup SysMenu
-     * @apiParam {string} username 用户名
-     * @apiParam {string} password 用户密码
-
-     * @apiSuccess  code 返回200
-     * @apiSampleRequest http://basedemo.weidong100.com/adminapi/menu/doLogin
-     * @apiVersion 1.0.0 
-     */
-    public function doLogin(){
-        $username = input('get.username');
-        $password = input('get.password');
-        
-        if($username == "" || $password == ""){
-            return $this->error('请输入用户名或密码');
-        }
-        
-        $hasUser = Db::name('user')->where('username',$username)->find();
-        if (empty($hasUser['username'])){
-            return $this->error("用户名不存在，请先注册");
-        }
-        if (md5($password) != $hasUser['password']){
-            return $this->error("账号或密码错误");
-        }
-        return $this->success('登录成功',url('index/index'));
-        $_SESSION['username'] = $username;
-        //
-        
-    }
      /**
      * @api {put} SysMenu/Update 菜单更新
      * @apiDescription 这个接口是用来修改菜单管理的
@@ -145,7 +61,7 @@ class SysMenu extends Common{
     {
         $Umodel = new SysMenumodel();
         $id = input('id');
-        $data['title']       = input('title');
+        $data['title']      = input('title');
         $data['name']       = input('put.name');
         $data['permission'] = input('put.permission');
         $data['path']       = input('put.path');
@@ -215,7 +131,7 @@ class SysMenu extends Common{
        $data['sort']       = input('sort');
        $data['type']       = input('type');
        $result = $Mmodel->insertMe($data);
-       return  out_info(200,'添加成功',$result,count($result));
+       return  out_info(200,'添加成功',$result);
     }
     /**
      * @api {get} SysMenu/read 查询 
@@ -232,6 +148,6 @@ class SysMenu extends Common{
         $Smodel = new SysMenumodel();
         $menu_id = input("id");
         $result = $Smodel->find($menu_id);
-        return out_info(200,'查询成功',$result,count($result)); 
+        return out_info(200,'查询成功',$result); 
     }
 }

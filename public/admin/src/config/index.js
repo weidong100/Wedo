@@ -21,7 +21,7 @@ export default {
     pro: ''
   },
   /**
-   * @description 统一上传路径
+   * @description 统一上传接口
    */
   uploadPath: 'adminapi/store/upload',
   /**

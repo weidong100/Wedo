@@ -87,7 +87,7 @@
 
 <script>
 import MarkdownEditor from '_c/markdown'
-import { getTableList, getDirList, codeCreateMC, getFileContents, cmVerifyPath } from '@/api/data'
+import { getTableList, getDirList, codeCreateMC, getFileContents, cmVerifyPath } from '@/api/codebase'
 export default {
   name: 'cm_pages',
   components: {

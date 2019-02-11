@@ -68,7 +68,7 @@
             </Row>
             <Row :gutter="32">
               <Col span="12">
-                <FormItem label="编辑及删除主键" required class="my-form-item">
+                <FormItem label="主键" required class="my-form-item">
                   <Input v-model="pk" placeholder="请输入主键依据" /> 
                 </FormItem>
               </Col>
@@ -85,23 +85,9 @@
           <Spin size="large" fix v-show="spinShow"></Spin>
           <Form  :label-width="80" ref="mform" v-show="formShow" inline>
             <Row :gutter="32">
-                <Col span="12">
+                <Col span="24">
                     <FormItem label="菜单名称" label-position="top" required class="my-form-item">
                         <Input v-model="menu.title" placeholder="请输入菜单名称" />
-                    </FormItem>
-                </Col>
-                <Col span="12">
-                    <FormItem label="父菜单" label-position="top" class="my-form-item" required>
-                        <Select v-model="menu.parent_id" placeholder="请选择父级">
-                          <Option :value="0" label="顶级菜单"><span style="fontWeight:600;">顶级菜单</span></Option>
-                          <template v-for="item in menuData">
-                            <Option :value="item.menu_id" :label="item.title" v-if="item.type == 0"><span style="fontWeight:600;">{{ item.title }}</span></Option>
-                            <template v-for="sec in item.children">
-                              <Option  :value="sec.menu_id" :label="sec.title" v-if="sec.type == 0"><span style="paddingLeft:10px;">{{ sec.title }}</span></Option>
-                                <Option v-for="thr in sec.children" v-if="thr.type == 0"  :value="thr.menu_id" :label="thr.title"><span style="paddingLeft:20px;">{{ thr.title }}</span></Option>
-                            </template>
-                          </template>
-                        </Select>
                     </FormItem>
                 </Col>
             </Row>
@@ -118,18 +104,35 @@
                 </Col>
             </Row>
             <Row :gutter="32">
-              <Col span="12">
+              <Col span="24">
                     <FormItem label="组件地址" label-position="top" class="my-form-item" >
-                        <Input v-model="menu.component" placeholder="请输入路由(顶级菜单请置空)" />
+                        <Input v-model="menu.component" placeholder="请输入组件文件所在路径" />
                     </FormItem>
               </Col>
+              
+            </Row>
+            <Row :gutter="32">
               <Col span="12">
+                    <FormItem label="父菜单" label-position="top" class="my-form-item" required>
+                        <Select v-model="menu.parent_id" placeholder="请选择父级">
+                          <Option :value="0" label="顶级菜单"><span style="fontWeight:600;">顶级菜单</span></Option>
+                          <template v-for="item in menuData">
+                            <Option :value="item.menu_id" :label="item.title" v-if="item.type == 0"><span style="fontWeight:600;">{{ item.title }}</span></Option>
+                            <template v-for="sec in item.children">
+                              <Option  :value="sec.menu_id" :label="sec.title" v-if="sec.type == 0"><span style="paddingLeft:10px;">{{ sec.title }}</span></Option>
+                                <Option v-for="thr in sec.children" v-if="thr.type == 0"  :value="thr.menu_id" :label="thr.title"><span style="paddingLeft:20px;">{{ thr.title }}</span></Option>
+                            </template>
+                          </template>
+                        </Select>
+                    </FormItem>
+                </Col>
+                <Col span="12">
                     <FormItem label="LOGO" label-position="top" class="my-form-item" required>
                         <Input v-model="menu.icon" placeholder="请输入LOGO" >
                           <Icon :type="menu.icon" slot="prefix" />
                         </Input>
                     </FormItem>
-              </Col>
+                </Col>
             </Row>
             <Row :gutter="32">
               <Col span="12">
@@ -339,7 +342,7 @@
 
 <script>
 import { oneOf } from '@/libs/tools'
-import { getTableList, codeCreateMC, getTableField, codeCreateVue, codeVerifyPath, getMenuData } from '@/api/data'
+import { getTableList, codeCreateMC, getTableField, codeCreateVue, codeVerifyPath, getMenuData } from '@/api/codebase'
 
 export default {
   name: 'vcode_pages',
@@ -418,6 +421,12 @@ export default {
             return (
               <Checkbox v-model={this.listfields[params.row.field]}></Checkbox>
             )
+          },
+          renderHeader: (h, params) => {
+            let type = 'listfields'
+            return (
+              <Checkbox v-model={this.listfieldsStatusAll} nativeOn-click={e => this.changeCheckStatusAll(type, e)}>列表</Checkbox>
+            )
           }
         },
         {
@@ -427,6 +436,12 @@ export default {
             return (
               <Checkbox v-model={this.searchfields[params.row.field]}></Checkbox>
             )
+          },
+          renderHeader: (h, params) => {
+            let type = 'searchfields'
+            return (
+              <Checkbox v-model={this.searchfieldsStatusAll} nativeOn-click={e => this.changeCheckStatusAll(type, e)}>搜索</Checkbox>
+            )
           }
         },
         {
@@ -435,6 +450,12 @@ export default {
           render: (h, params) => {
             return (
               <Checkbox v-model={this.editfields[params.row.field]}></Checkbox>
+            )
+          },
+          renderHeader: (h, params) => {
+            let type = 'editfields'
+            return (
+              <Checkbox v-model={this.editfieldsStatusAll} nativeOn-click={e => this.changeCheckStatusAll(type, e)}>添加编辑</Checkbox>
             )
           }
         }
@@ -450,6 +471,9 @@ export default {
       fieldsAlias: {},
       fieldsType: {},
       fieldsConf: {},
+      listfieldsStatusAll: false,
+      searchfieldsStatusAll: false,
+      editfieldsStatusAll: false,
       typeSelect: [
         {
           value: 'input',
@@ -580,6 +604,13 @@ export default {
     }
   },
   methods: {
+    changeCheckStatusAll(type, e){
+      // e.stopPropagation()
+      console.log(this[type])
+      for(let k in this[type]){
+        this[type][k] = !this[type + 'StatusAll']
+      }
+    },
     hasConfigOption (type) {
       let arr = ['select', 'radio', 'checkbox', 'upload']
       return oneOf(type, arr)
@@ -596,7 +627,9 @@ export default {
       let table = value.replace(this.prefix, '')
       this.menu.name = table
       this.menu.path = table
-      
+      this.listfieldsStatusAll = false
+      this.searchfieldsStatusAll = false
+      this.editfieldsStatusAll = false
       this.reloadformbuttons(table)
 
       getTableField(value).then(res => {
@@ -614,14 +647,23 @@ export default {
         this.api.deleteApi = this.transformStr('delete_' + table)
 
         res.data.data.forEach(item => {
-          this.listfields[item.field] = false
-          this.searchfields[item.field] = false
-          this.editfields[item.field] = false
-          this.fieldsAlias[item.field] = item.com
-          let obj = {};
+          let it_field = {}, it_com = {}, obj = {}, it_conf = {}
+
+          it_field[item.field] = false
+          this.listfields = Object.assign({}, this.listfields, it_field)
+          this.searchfields = Object.assign({}, this.searchfields, it_field)
+          this.editfields = Object.assign({}, this.editfields, it_field)
+
+          it_com[item.field] = item.com
+          this.fieldsAlias = Object.assign({}, this.fieldsAlias, it_com)
+          // this.listfields[item.field] = false
+          // this.searchfields[item.field] = false
+          // this.editfields[item.field] = false
+          // this.fieldsAlias[item.field] = item.com
           obj[item.field] = ["init"]
           this.fieldsType = Object.assign({}, this.fieldsType, obj)
-          this.fieldsConf[item.field] = {
+
+          it_conf[item.field] = {
             dataApi: '',
             valueKey: 'id',
             nameKey: 'title',
@@ -630,6 +672,8 @@ export default {
             uploadPath: '',
             uploadFormat: ''
           }
+          this.fieldsConf = Object.assign({}, this.fieldsConf, it_conf)
+
           if(item.key == 'PRI'){
             this.pk = item.field
           }
@@ -849,6 +893,7 @@ export default {
       }
     })
     getMenuData().then(res => {
+      console.log(res)
       this.menuData = res.data.data
     })
   }

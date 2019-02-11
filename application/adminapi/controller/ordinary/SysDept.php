@@ -1,3 +1,4 @@
+<?php
 // +----------------------------------------------------------------------
 // | Wedo [ 快速搭建后台和生成前端API ]
 // +----------------------------------------------------------------------
@@ -10,26 +11,23 @@
 // | 出品: 青岛微动一百网络有限公司    技术交流QQ群（157261071）
 // +----------------------------------------------------------------------
 
-namespace {:config('codebase.app_namespace')}\{$moduleName}\controller\rest;
+namespace app\adminapi\controller\ordinary;
 
 use think\Controller;
-use app\{$moduleName}\controller\Common;
+use app\adminapi\controller\Common;
+use think\Db;
 
-class {:tableNameToModelName($tableName)} extends Common{
-	protected $model = null;
-
-	public function _initialize(){	
-		$this->model = new \{:config('codebase.app_namespace')}\{$moduleName}\model\{:tableNameToModelName($modalname)};
-	}
-	
-	{include file="index" /}
-	
-	{include file="add" /}
-	
-	{include file="edit" /}
-	
-	{include file="delete" /}
-	
-	{include file="info" /}
+class SysDept extends Common{
+    
+    public function getRolesByDept(){
+        $deptId = input('dept_id');
+        $roles = db('sys_role')
+               ->alias('r')
+               ->field('r.role_id,r.role_name')
+               ->join(config('database.prefix').'sys_role_dept rd','r.role_id=rd.role_id','left')
+               ->where('rd.dept_id',$deptId)
+               ->select();
+        out_info(200, 'ok', $roles);
+    }
 	
 }

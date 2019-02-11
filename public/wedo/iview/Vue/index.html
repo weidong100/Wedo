@@ -97,7 +97,7 @@
 {/if}
                 <!--添加编辑表单-->
                 <Form ref="sform" :model="formField" slot="drawer" label-position="top">
-                    <Row :gutter="16">
+                    <Row :gutter="32">
 {volist name="edit" id="f"}
 {if condition="$f != $pk && $types[$f][0] != 'upload' && $types[$f][0] != 'textarea'"}
                         <Col span="12">
@@ -345,7 +345,7 @@ export default {
       },
       formField: {
 {volist name="edit" id="e"}
-        {$e}: {if name="$types[$e][0] == 'checkbox' || ($types[$e][0] == 'upload' && $types[$e][1] == 'multiple')"}[]{else/}''{/if}{lt name="$i" value=":count($edit)"},
+        {$e}: {if condition="$types[$e][0] == 'checkbox' || ($types[$e][0] == 'upload' && $types[$e][1] == 'multiple')"}[]{else/}''{/if}{lt name="$i" value=":count($edit)"},
 {/lt}
 {/volist}
 
@@ -614,7 +614,7 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 .my-form-buttons{
   margin-top: 20px;
 }
@@ -629,5 +629,8 @@ export default {
 }
 .my-after-search-button{
   margin-left: 2px;
+}
+.ivu-select-dropdown{
+  z-index: 1100;
 }
 </style>

@@ -3,7 +3,7 @@ namespace app\adminapi\controller;
 
 use think\Controller;
 use think\Db;
-use app\adminapi\model\OAuthM;
+use OAuthM\OAuthM;
 
 class Login extends Controller{
     public function _initialize()

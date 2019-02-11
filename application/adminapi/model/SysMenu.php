@@ -10,7 +10,7 @@ class SysMenu extends Model{
 	 */
    public function getList($where){
        
-       $result = Db::name('sys_menu')->where($where)->select();
+       $result = Db::name('sys_menu')->where($where)->order('sort asc')->select();
        return $result;
    }
     

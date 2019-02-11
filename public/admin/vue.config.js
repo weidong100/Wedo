@@ -40,7 +40,7 @@ module.exports = {
   devServer: {
       proxy: {
       '/adminapi':{
-        target: 'http://localhost:80',
+        target: 'http://localhost:8888',
         changeOrigin: true,
         pathRewrite: function (path, req) { 
           let reg = new RegExp(".*/adminapi");
@@ -48,11 +48,19 @@ module.exports = {
         }
       },
       '/restapi':{
-        target: 'http://localhost:80',
+        target: 'http://localhost:8888',
         changeOrigin: true,
         pathRewrite: function (path, req) { 
           let reg = new RegExp(".*/restapi");
           return path.replace(reg, '') 
+        }
+      },
+      '/ordapi':{
+        target: 'http://localhost:8888',
+        changeOrigin: true,
+        pathRewrite: function (path, req) { 
+          let reg = new RegExp(".*/ordapi/");
+          return path.replace(reg, '/adminapi/ordinary.') 
         }
       }
     }

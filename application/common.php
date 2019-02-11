@@ -1,12 +1,12 @@
 <?php
 error_reporting(E_ERROR | E_WARNING | E_PARSE);
-//递归重组节点信息为多维数组
-function node_merge($node,$access = [],$pid = 0){
+//递归重组菜单权限节点信息为多维数组
+function node_merge($node,$access = [],$pid = 0,$idKey = 'menu_id'){
     $arr = array();
     foreach($node as $v){
         if($v['parent_id'] == $pid){
-            $v['children'] = node_merge($node,$access,$v['menu_id']);
-            if(in_array($v['menu_id'],$access)){
+            $v['children'] = node_merge($node,$access,$v[$idKey],$idKey);
+            if(in_array($v[$idKey],$access)){
                 $v['isCheck']=true;
             }else{
                 $v['isCheck']=false;
@@ -18,6 +18,17 @@ function node_merge($node,$access = [],$pid = 0){
     return $arr;
 }
 
+//普通节点递归为多维数组
+function ord_merge($node, $pid = 0, $idKey = 'id', $pidKey = 'parent_id'){
+    $arr = array();
+    foreach($node as $v){
+        if($v[$pidKey] == $pid){
+            $v['children'] = ord_merge($node, $access, $v[$idKey], $idKey, $pidKey);
+            $arr[] = $v;
+        }
+    }
+    return $arr;
+}
 //接口信息输出
 function out_info($code,$tips,$data="",$count=0,$extra=[]){
     $datas['code']  = $code;

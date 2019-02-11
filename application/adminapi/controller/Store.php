@@ -8,10 +8,10 @@ class Store extends Common{
     {
         $file = request()->file('file');
         $path = input('path', 'common');
-        $format = input('format');
+        $format = input('format') ? input('format') : config('store.ext');
         $info = $file
                 -> rule('date')
-                -> validate(['size'=> config('store.uploadMaxSize'),'ext'=> $format == '' ? config('store.ext') : $format ])
+                -> validate(['size'=> config('store.uploadMaxSize'),'ext'=> $format])
                 -> move(ROOT_PATH . 'public' . DS . 'uploads' . DS . $path);
         if($info){
             $result = [

@@ -31,15 +31,16 @@
                 <Form ref="sform" :model="formField" slot="drawer">
                     <Row :gutter="32">
                         <Col span="12">
-                            <FormItem label="数值" label-position="top" prop="value" required>
-                                <Input v-model="formField.value" placeholder="请输入数值"/>
-                            </FormItem>
-                        </Col>
-                        <Col span="12">
                             <FormItem label="标签" label-position="top" prop="label" required>
                                 <Input v-model="formField.label" placeholder="请输入标签"/>
                             </FormItem>
                         </Col>
+                        <Col span="12">
+                            <FormItem label="数值" label-position="top" prop="value" required>
+                                <Input v-model="formField.value" placeholder="请输入数值"/>
+                            </FormItem>
+                        </Col>
+                        
                         <Col span="12">
                             <FormItem label="类型" label-position="top" prop="type" required>
                                 <Input v-model="formField.type" placeholder="请输入类型"/>
@@ -51,18 +52,15 @@
                             </FormItem>
                         </Col>
                         <Col span="12">
-                            <FormItem label="排序" label-position="top" prop="sort" required>
-                                <Input v-model="formField.sort" placeholder="请输入排序"/>
-                            </FormItem>
-                        </Col>
-                        <Col span="12">
                             <FormItem label="备注" label-position="top" prop="remarks" required>
                                 <Input v-model="formField.remarks" placeholder="请输入备注"/>
                             </FormItem>
                         </Col>
-                    </Row>
-                    <Row>
-                      <neditor v-model="testn" style="marginBottom:20px;"></neditor>
+                        <Col span="12">
+                            <FormItem label="排序" label-position="top" prop="sort" required>
+                                <InputNumber :min="0" v-model="formField.sort" style="width:100%;"></InputNumber>
+                            </FormItem>
+                        </Col>
                     </Row>
                     <FormItem>
                         <Button type="primary" @click="handleForm()">保存</Button>
@@ -88,7 +86,6 @@ export default {
   },
   data () {
     return {
-      testn: '',
       loading: true,
       //分页配置
       page: {
@@ -101,13 +98,13 @@ export default {
         type: ''
       },
       columns: [
-        { title: '数值', key: 'value' },
         { title: '标签', key: 'label' },
+        { title: '数值', key: 'value' },
         { title: '类型', key: 'type' },
         { title: '描述', key: 'description' },
+        { title: '备注', key: 'remarks' },
         { title: '排序', key: 'sort' },
         { title: '创建时间', key: 'create_time' },
-        { title: '备注', key: 'remarks' },
         {
           title: '操作',
           key: 'handle',
@@ -174,14 +171,9 @@ export default {
         label: '',
         type: '',
         description: '',
-        sort: '',
+        sort: 0,
         remarks: ''
       }
-    }
-  },
-  watch: {
-    testn: function(v){
-      console.log(v)
     }
   },
   methods: {

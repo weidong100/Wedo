@@ -1,10 +1,10 @@
 <template>
   <div>
-    <Card shadow>
+    <Card>
       <div class="search-con search-con-top">
         <Button type="primary" icon="md-add" @click="addData()">新增</Button>
       </div>
-      <tree-table expand-key="title" :expand-type="false" :selectable="false" :columns="columns" :data="data" >
+      <tree-table expand-key="title" :expand-type="false" :is-fold="true" :selectable="false" :columns="columns" :data="data" >
         <template slot="icon" slot-scope="scope">
           <Icon :type="scope.row.icon" />
         </template>
@@ -106,7 +106,7 @@
 
 <script>
 import './index.less'
-import { getMenuData, createMenu, updateMenu, deleteMenu } from '@/api/data'
+import { getMenuData, createMenu, updateMenu, deleteMenu } from '@/api/sys_menu'
 export default {
   name: 'menu_page',
   data () {

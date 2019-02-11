@@ -10,10 +10,11 @@
 // | 出品: 青岛微动一百网络有限公司    技术交流QQ群（157261071）
 // +----------------------------------------------------------------------
 
-namespace {:config('codebase.app_namespace')}\{$moduleName}\controller\rest;
+namespace {:config('codebase.app_namespace')}\{$moduleName}\controller\ordinary;
 
 use think\Controller;
 use app\{$moduleName}\controller\Common;
+use think\Db;
 
 class {:tableNameToModelName($tableName)} extends Common{
 	protected $model = null;
@@ -21,15 +22,5 @@ class {:tableNameToModelName($tableName)} extends Common{
 	public function _initialize(){	
 		$this->model = new \{:config('codebase.app_namespace')}\{$moduleName}\model\{:tableNameToModelName($modalname)};
 	}
-	
-	{include file="index" /}
-	
-	{include file="add" /}
-	
-	{include file="edit" /}
-	
-	{include file="delete" /}
-	
-	{include file="info" /}
 	
 }

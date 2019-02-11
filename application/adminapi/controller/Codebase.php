@@ -106,29 +106,40 @@ class Codebase extends Common{
 		$save = session('create_cm_file_params');
 		$moduleName = $save['moduleName'];	
 		$alias = $save['alias'];
-		$modelPath = APP_PATH . $moduleName . DS . 'controller' . DS;
+
 		$tableName = $alias[input('tableName')] ? $alias[input('tableName')] : getTableName(input('tableName'));
+		//资源控制器
+		$modelPath = APP_PATH . $moduleName . DS . 'controller' . DS . 'rest' . DS;
 		if(!file_exists($modelPath)){
 			FileUtil::createDir($modelPath);
 		}
 		$code = $this->generateControllerCode();
 		$filePath = $modelPath.tableNameToModelName($tableName).".php";
 		file_put_contents($filePath, $code);
+		//普通控制器
+		$ordinaryPath = APP_PATH . $moduleName . DS . 'controller' . DS . 'ordinary' . DS;
+		if(!file_exists($ordinaryPath)){
+			FileUtil::createDir($ordinaryPath);
+		}
+		$ordinary_code = $this->generateControllerOrdinary();
+		$ordinaryFilePath = $ordinaryPath.tableNameToModelName($tableName).".php";
+		file_put_contents($ordinaryFilePath, $ordinary_code);
+		//创建模型
 		$modelres = $this->createModelFile();
 		//自动注册资源路由
 		$routefile = BASE_PATH.'application/route.php';
 		$route = require $routefile;
 		$restName = columNameToVarName($tableName);
-		$route['__rest__'][$restName] = $moduleName.'/'.tableNameToModelName($tableName);
+		$route['__rest__'][$restName] = $moduleName.'/rest.'.tableNameToModelName($tableName);
 		$routeContent = file_get_contents($routefile);
 		$newRoute = 'return ' . var_export($route, TRUE);
 		$newRouteContent = preg_replace("/return\s+[^\;]+/",$newRoute,$routeContent);
 		file_put_contents($routefile, $newRouteContent);
 		
 		session('create_cm_file_params',null);
-		return '生成成功，生成路径为：<br>&nbsp;&nbsp;&nbsp;&nbsp;控制器：'.$filePath.'<br>&nbsp;&nbsp;&nbsp;&nbsp;模型：'.$modelres.'<br>';
+		return '生成成功，生成路径为：<br>资源控制器：'.$filePath.'<br>普通控制器：'.$ordinaryFilePath.'<br>模型：'.$modelres.'<br>';
 	}
-	//生成控制器代码
+	//生成资源控制器代码
 	public function generateControllerCode(){
 		$save = session('create_cm_file_params');
 		$alias = $save['alias'];
@@ -147,6 +158,24 @@ class Codebase extends Common{
 		$codelibName = config('codebase.codeLib') == '' ? 'iview' : config('codebase.codeLib');
 		$codeBasePath = config('codebase.respository') . DS . $codelibName .DS;
 		$template = file_get_contents($codeBasePath.'Controller'.DS.'controller.html');//读取模板.
+
+		return config('codebase.php_head') . $this->display($template,[],[],['view_path'=>$codeBasePath.'Controller'.DS]);
+	}
+	//生成普通控制器代码
+	public function generateControllerOrdinary(){
+		$save = session('create_cm_file_params');
+		$alias = $save['alias'];
+		$initTableName = getTableName(input('tableName'));
+		$tableName = $alias[input('tableName')] ? $alias[input('tableName')] : $initTableName;
+		$moduleName = $save['moduleName'];
+
+		$this->assign('modalname', $initTableName);
+		$this->assign('tableName', $tableName);
+		$this->assign('moduleName', $moduleName);
+
+		$codelibName = config('codebase.codeLib') == '' ? 'iview' : config('codebase.codeLib');
+		$codeBasePath = config('codebase.respository') . DS . $codelibName .DS;
+		$template = file_get_contents($codeBasePath.'Controller'.DS.'ordinary.html');//读取模板.
 
 		return config('codebase.php_head') . $this->display($template,[],[],['view_path'=>$codeBasePath.'Controller'.DS]);
 	}
@@ -408,32 +437,32 @@ class Codebase extends Common{
 		//'.$controller.' 列表接口
 		export const '.$api['listApi'].' = (field) => {
 			return axios.request({
-				url:"restapi/'.$controller.'",
-				method:"get",
-				params:field
+				url: "restapi/'.$controller.'",
+				method: "get",
+				params: field
 			})
 		}
 		//'.$controller.' 添加接口
 		export const '.$api['createApi'].' = (field) => {
 			return axios.request({
-				url:"restapi/'.$controller.'/create",
-				method:"post",
-				data:field
+				url: "restapi/'.$controller.'/create",
+				method: "post",
+				data: field
 			})
 		}
 		//'.$controller.' 编辑接口
 		export const '.$api['editApi'].' = (field) => {
 			return axios.request({
-				url:"restapi/'.$controller.'/" + field.id,
-				method:"put",
-				data:field
+				url: "restapi/'.$controller.'/" + field.id,
+				method: "put",
+				data: field
 			})
 		}
 		//'.$controller.' 删除接口
 		export const '.$api['deleteApi'].' = (id) => {
 			return axios.request({
-				url:"restapi/'.$controller.'/" + id,
-				method:"delete"
+				url: "restapi/'.$controller.'/" + id,
+				method: "delete"
 			})
 		}
 		';
@@ -442,8 +471,8 @@ class Codebase extends Common{
 				$content .= '//初始化'.$v['alias'].'下拉数据
 		export const '.$v['name'].' = () => {
 			return axios.request({
-				url:"'.$v['url'].'",
-				method:"get"
+				url: "'.$v['url'].'",
+				method: "get"
 			})
 		}
 		';

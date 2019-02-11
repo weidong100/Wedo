@@ -1,9 +1,11 @@
 <?php
-namespace app\adminapi\controller;
+namespace app\adminapi\controller\rest;
 use think\Controller;
 use app\adminapi\model\RoleModel;
+use app\adminapi\controller\Common;
 use think\Db;
-class Role extends Common
+
+class SysRole extends Common
 {
     /**
      * @api {get} role  角色列表

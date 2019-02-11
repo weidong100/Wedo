@@ -1,5 +1,5 @@
 <?php
-namespace app\adminapi\model;
+namespace OAuthM;
 
 use OAuth2\GrantType\RefreshToken;
 use OAuth2\GrantType\UserCredentials;

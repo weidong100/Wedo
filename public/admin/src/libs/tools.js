@@ -213,3 +213,14 @@ export const objEqual = (obj1, obj2) => {
   /* eslint-disable-next-line */
   else return !keysArr1.some(key => obj1[key] != obj2[key])
 }
+
+export const findArray = (value, arr, key) => {
+  let target = null
+  arr.forEach(item => {
+    if(item[key] == value){
+      target = item
+      return false
+    }
+  })
+  return target
+}

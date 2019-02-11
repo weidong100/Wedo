@@ -42,7 +42,10 @@ return array (
   ),
   '__rest__' => 
   array (
-    'sysDict' => 'adminapi/SysDict',
-    'sysLog' => 'adminapi/SysLog',
+    'sysDict' => 'adminapi/rest.SysDict',
+    'sysDept' => 'adminapi/rest.SysDept',
+    'sysUser' => 'adminapi/rest.SysUser',
+    'sysRole' => 'adminapi/rest.SysRole',
+    'sysMenu' => 'adminapi/rest.SysMenu'
   ),
 );
