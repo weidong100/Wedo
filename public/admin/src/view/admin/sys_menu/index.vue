@@ -4,6 +4,7 @@
       <div class="search-con search-con-top">
         <Button type="primary" icon="md-add" @click="addData()">新增</Button>
       </div>
+      <Spin size="large" fix v-show="loading"></Spin>
       <tree-table expand-key="title" :expand-type="false" :is-fold="true" :selectable="false" :columns="columns" :data="data" >
         <template slot="icon" slot-scope="scope">
           <Icon :type="scope.row.icon" />
@@ -111,6 +112,7 @@ export default {
   name: 'menu_page',
   data () {
     return {
+      loading: true,
       columns: [
         {
           title: '菜单名称',
@@ -243,6 +245,7 @@ export default {
     getMenuData().then(res => {
       console.log(res)
       this.data = res.data.data
+      this.loading = false
     })
   }
 }

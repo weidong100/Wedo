@@ -4,6 +4,7 @@
       <div class="search-con search-con-top">
         <Button type="primary" icon="md-add" @click="addData()">新增</Button>
       </div>
+      <Spin size="large" fix v-show="loading"></Spin>
       <tree-table expand-key="name" :expand-type="false" :selectable="false" :columns="columns" :data="data" >
         <template slot="options" slot-scope="scope">
           <Button @click="editData(scope.row)" type="success" size="small" style="marginRight:5px;">修改</Button>
@@ -76,6 +77,7 @@ export default {
   name: 'wd_sys_dept_page',
   data () {
     return {
+      loading: true,
       columns: [
         {
           title: '部门名称',
@@ -193,6 +195,7 @@ export default {
     getSysDeptData().then(res => {
       console.log(res)
       this.data = res.data.data
+      this.loading = false
     })
   }
 }
