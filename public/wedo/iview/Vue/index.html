@@ -412,14 +412,12 @@ export default {
       uploadRemove: {
 {volist name="uploads.single" id="us"}
         {$us}: (vm) => {
-          vm.initImg = {}
           this.formField[vm.field] = ''
         }{lt name="$i" value=":count($uploads.single)"},
 {/lt}
 {/volist}{volist name="uploads.multiple" id="um"},
-        {$um}: (file, vm) => {
-          vm.initList = vm.initList.filter((item, index) => item.name != file.name)
-          this.formField[vm.field] = this.formField[vm.field].filter((item, index) => item != file.name)
+        {$um}: (file, field) => {
+          this.formField[field] = this.formField[field].filter((item, index) => item != file.name)
         }{lt name="$i" value=":count($uploads.multiple)"},
 {/lt}
 {/volist}        

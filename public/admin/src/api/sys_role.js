@@ -34,7 +34,7 @@ export const deleteRole = (id) => {
 //权限配置
 export const roleAuth = ({ role_id, menus }) => {
   	return axios.request({
-	  url: '/ordapi/SysRole/setRoleAuth',
+	  url: '/restapi/sysRole/setRoleAuth',
 	  method: 'post',
 	  data: {
 		role_id,
@@ -45,14 +45,14 @@ export const roleAuth = ({ role_id, menus }) => {
 //角色添加获取部门接口
 export const getDeptData = () => {
 	return axios.request({
-		url: '/ordapi/Department/index',
+		url: '/restapi/sysDept',
 		method: 'get',
 		
 	})
 }
 export const getMenuData = (field = {}) => {
 	return axios.request({
-	  url: 'restapi/SysMenu',
+	  url: 'restapi/sysMenu',
 	  method: 'get',
 	  params: field
 	})

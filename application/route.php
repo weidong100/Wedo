@@ -11,6 +11,11 @@
 
 use think\Route;
 Route::rest('create',['POST', '/create','create']);
+Route::rule('sysDept/getRolesByDept', 'adminapi/SysDept/getRolesByDept', 'get');
+Route::rule('sysMenu/getUserSysMenu', 'adminapi/SysMenu/getUserSysMenu', 'get');
+Route::rule('sysRole/getUserSysMenu', 'adminapi/SysRole/setRoleAuth', 'post');
+Route::rule('sysUser/getUserSysMenu', 'adminapi/SysUser/getUserInfo', 'get');
+
 
 return array (
   '__pattern__' => 
@@ -42,10 +47,10 @@ return array (
   ),
   '__rest__' => 
   array (
-    'sysDict' => 'adminapi/rest.SysDict',
-    'sysDept' => 'adminapi/rest.SysDept',
-    'sysUser' => 'adminapi/rest.SysUser',
-    'sysRole' => 'adminapi/rest.SysRole',
-    'sysMenu' => 'adminapi/rest.SysMenu'
+    'sysDict' => 'adminapi/SysDict',
+    'sysDept' => 'adminapi/SysDept',
+    'sysUser' => 'adminapi/SysUser',
+    'sysRole' => 'adminapi/SysRole',
+    'sysMenu' => 'adminapi/SysMenu'
   ),
 );

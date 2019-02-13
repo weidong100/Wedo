@@ -114,5 +114,16 @@ class SysDept extends Common{
         $result = $this->model->info($this->request);
         return out_info(200,'success',$result);
     }
+
+    public function getRolesByDept(){
+        $deptId = input('dept_id');
+        $roles = db('sys_role')
+               ->alias('r')
+               ->field('r.role_id,r.role_name')
+               ->join(config('database.prefix').'sys_role_dept rd','r.role_id=rd.role_id','left')
+               ->where('rd.dept_id',$deptId)
+               ->select();
+        out_info(200, 'ok', $roles);
+    }
 	
 }

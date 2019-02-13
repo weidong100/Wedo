@@ -109,7 +109,7 @@ class Codebase extends Common{
 
 		$tableName = $alias[input('tableName')] ? $alias[input('tableName')] : getTableName(input('tableName'));
 		//资源控制器
-		$modelPath = APP_PATH . $moduleName . DS . 'controller' . DS . 'rest' . DS;
+		$modelPath = APP_PATH . $moduleName . DS . 'controller' . DS ;
 		if(!file_exists($modelPath)){
 			FileUtil::createDir($modelPath);
 		}
@@ -117,13 +117,13 @@ class Codebase extends Common{
 		$filePath = $modelPath.tableNameToModelName($tableName).".php";
 		file_put_contents($filePath, $code);
 		//普通控制器
-		$ordinaryPath = APP_PATH . $moduleName . DS . 'controller' . DS . 'ordinary' . DS;
-		if(!file_exists($ordinaryPath)){
-			FileUtil::createDir($ordinaryPath);
-		}
-		$ordinary_code = $this->generateControllerOrdinary();
-		$ordinaryFilePath = $ordinaryPath.tableNameToModelName($tableName).".php";
-		file_put_contents($ordinaryFilePath, $ordinary_code);
+		// $ordinaryPath = APP_PATH . $moduleName . DS . 'controller' . DS . 'ordinary' . DS;
+		// if(!file_exists($ordinaryPath)){
+		// 	FileUtil::createDir($ordinaryPath);
+		// }
+		// $ordinary_code = $this->generateControllerOrdinary();
+		// $ordinaryFilePath = $ordinaryPath.tableNameToModelName($tableName).".php";
+		// file_put_contents($ordinaryFilePath, $ordinary_code);
 		//创建模型
 		$modelres = $this->createModelFile();
 		//自动注册资源路由
@@ -137,7 +137,7 @@ class Codebase extends Common{
 		file_put_contents($routefile, $newRouteContent);
 		
 		session('create_cm_file_params',null);
-		return '生成成功，生成路径为：<br>资源控制器：'.$filePath.'<br>普通控制器：'.$ordinaryFilePath.'<br>模型：'.$modelres.'<br>';
+		return '生成成功，生成路径为：<br>资源控制器：'.$filePath.'<br>模型：'.$modelres.'<br>';
 	}
 	//生成资源控制器代码
 	public function generateControllerCode(){

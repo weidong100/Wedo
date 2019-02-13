@@ -9,22 +9,27 @@ use OAuth2\Scope;
 use OAuth2\Server;
 use OAuth2\Storage\Memory;
 use OAuth2\Storage\Pdo as OPdo;
+use Think\Db;
 
 class OAuthM
 {
     protected $db_config = [];
     protected $db_table_config = [
-        'client_table' => 'oauth_clients',
-        'access_token_table' => 'oauth_access_tokens',
+        'client_table'        => 'oauth_clients',
+        'access_token_table'  => 'oauth_access_tokens',
         'refresh_token_table' => 'oauth_refresh_tokens',
-        'code_table' => 'oauth_authorization_codes',
-        'user_table' => '',
-        'jwt_table'  => 'oauth_jwt',
-        'jti_table'  => 'oauth_jti',
-        'scope_table'  => 'oauth_scopes'
+        'code_table'          => 'oauth_authorization_codes',
+        'user_table'          => '',
+        'jwt_table'           => 'oauth_jwt',
+        'jti_table'           => 'oauth_jti',
+        'scope_table'         => 'oauth_scopes'
+    ];
+    protected $client = [
+        'client_id' => 'testclient',
+        'client_secret'=> 'qwert'
     ];
     
-    public function __construct($dbC = [], $tableC = [], array $config = [])
+    public function __construct($dbC = [], $tableC = [], array $config = [], $clientC = [])
     {
         $this->db_config = [
             'dsn'=> config('database.type').':host='.config('database.hostname').';dbname='.config('database.database'),
@@ -35,6 +40,7 @@ class OAuthM
         $this->db_config = array_merge($this->db_config,$dbC);
         $this->db_table_config = array_merge($this->db_table_config,$tableC);
         $this->config = $config;
+        $this->client = array_merge($this->client, $clientC);
     }
     //创建OAuth Resource Owner Password Credentials (资源所有者密码凭证许可）对象
     public function createServer()
@@ -77,6 +83,7 @@ class OAuthM
     public function verify()
     {
         $server = $this->createServer();
+        $user_table = $this->db_table_config['user_table'];
         $flag=$server->verifyResourceRequest(ORequest::createFromGlobals());
         $response = $server->getResponse();
         if ( !$flag ) {
@@ -84,6 +91,12 @@ class OAuthM
             $result['code'] =$response->getStatusCode();
         }else{
             $token = $server->getAccessTokenData(ORequest::createFromGlobals());
+            if($token["client_id"] != $this->client['client_id']){
+                return [
+                    'code' => 401,
+                    'error'=> '用户不存在！'
+                ];
+            }
             $result['code'] =$response->getStatusCode();
             $result['user_id'] =$token['user_id'];
         }

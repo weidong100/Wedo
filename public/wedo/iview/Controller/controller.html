@@ -10,10 +10,9 @@
 // | 出品: 青岛微动一百网络有限公司    技术交流QQ群（157261071）
 // +----------------------------------------------------------------------
 
-namespace {:config('codebase.app_namespace')}\{$moduleName}\controller\rest;
+namespace {:config('codebase.app_namespace')}\{$moduleName}\controller;
 
 use think\Controller;
-use app\{$moduleName}\controller\Common;
 
 class {:tableNameToModelName($tableName)} extends Common{
 	protected $model = null;

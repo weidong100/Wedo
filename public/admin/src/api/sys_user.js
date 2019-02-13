@@ -40,7 +40,7 @@ import axios from '@/libs/api.request'
 		//获取角色下拉数据
 		export const getRoleData = (dept_id) => {
 			return axios.request({
-				url: "ordapi/sys_dept/getRolesByDept",
+				url: "restapi/sysDept/getRolesByDept",
 				method: "get",
 				params: {
 					dept_id

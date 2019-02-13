@@ -100,7 +100,8 @@ export default {
         this.visible = true;
     },
     handleRemove (file) {
-        this.$emit('on-remove', file, this)
+        this.initList = this.initList.filter((item, index) => item.name != file.name)
+        this.$emit('on-remove', file, this.field)
     },
     handleSuccess (res, file) {
         this.initList.pop()

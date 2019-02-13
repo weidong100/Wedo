@@ -108,7 +108,8 @@ export default {
         this.visible = true;
     },
     handleRemove (file) {
-        this.$emit('on-remove', this)
+        this.initImg = {}
+        this.$emit('on-remove', this.field)
     },
     handleSuccess (res, file) {
         let fileName = ''

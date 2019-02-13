@@ -131,7 +131,11 @@ class SysUser extends Common
         return $UserModel->deleteUser($user_id);
     }
     
-    
+    public function getUserInfo(){
+        $UserModel = new UserModel;
+        $user_id = session('admin_id');
+        return $UserModel->findUser($user_id);
+    }
     
     
 }

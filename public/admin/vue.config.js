@@ -54,14 +54,6 @@ module.exports = {
           let reg = new RegExp(".*/restapi");
           return path.replace(reg, '') 
         }
-      },
-      '/ordapi':{
-        target: 'http://localhost:8888',
-        changeOrigin: true,
-        pathRewrite: function (path, req) { 
-          let reg = new RegExp(".*/ordapi/");
-          return path.replace(reg, '/adminapi/ordinary.') 
-        }
       }
     }
   }
