@@ -15,7 +15,7 @@ class Store extends Common{
                 -> move(ROOT_PATH . 'public' . DS . 'uploads' . DS . $path);
         if($info){
             $result = [
-                'fileName' => $info->getFilename(),
+                'fileName' => $info->getSaveName(),
                 'filePath' => config('site.domain') . DS . 'public' . DS . 'uploads' . DS . $path . DS . $info->getSaveName(),
             ];
             out_info(200, '已保存', $result);

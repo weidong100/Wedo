@@ -130,7 +130,7 @@ class Codebase extends Common{
 		$routefile = BASE_PATH.'application/route.php';
 		$route = require $routefile;
 		$restName = columNameToVarName($tableName);
-		$route['__rest__'][$restName] = $moduleName.'/rest.'.tableNameToModelName($tableName);
+		$route['__rest__'][$restName] = $moduleName.'/'.tableNameToModelName($tableName);
 		$routeContent = file_get_contents($routefile);
 		$newRoute = 'return ' . var_export($route, TRUE);
 		$newRouteContent = preg_replace("/return\s+[^\;]+/",$newRoute,$routeContent);

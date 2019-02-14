@@ -59,6 +59,10 @@
                     <Select v-model="searchField.{$s}" class="search-col my-search" placeholder="请选择{$alias[$s]}">
                       <Option v-for="item in mySelectData.{$s}" :value="item.{$init_conf[$s]['valueKey']}" :key="`my-search-{$s}-`+item.{$init_conf[$s]['valueKey']}">{{ item.{$init_conf[$s]['nameKey']} }}</Option>
                     </Select>
+{elseif condition="$types[$s][0] == 'datepicker'"/}
+                    <DatePicker type="{$types[$s][1]}" v-model="searchField.{$s}" placement="bottom-end" placeholder="选择{$alias[$s]}"></DatePicker>
+{elseif condition="$types[$s][0] == 'timepicker'"/}
+                    <TimePicker type="{$types[$s][1]}" v-model="searchField.{$s}" placement="bottom-end" placeholder="选择{$alias[$s]}"></TimePicker>
 {/if}
 {/volist}
                     <Button class="search-btn" type="primary" icon="md-search" @click="handleMySearch">搜索</Button>
@@ -357,7 +361,6 @@ export default {
           {
             {$c.valueKey}: {$cs.id},
             {$c.nameKey}: '{$cs.title}'
-          
           }{lt name="$k" value=":count($c['selfDef'])"},
 {/lt}
 {/volist}
@@ -372,7 +375,7 @@ export default {
 {volist name="uploads.single" id="us"}
         {$us}: {}{lt name="$i" value=":count($uploads.single)"},
 {/lt}
-{/volist}{volist name="uploads.multiple" id="um"},
+{/volist}{notempty name="uploads.single"},{/notempty}{volist name="uploads.multiple" id="um"}
         {$um}: []{lt name="$i" value=":count($uploads.multiple)"},
 {/lt}
 {/volist}
@@ -384,7 +387,7 @@ export default {
           path: '{$init_conf[$us]["uploadPath"]}'
         }{lt name="$i" value=":count($uploads.single)"},
 {/lt}
-{/volist}{volist name="uploads.multiple" id="um"},
+{/volist}{notempty name="uploads.single"},{/notempty}{volist name="uploads.multiple" id="um"}
         {$um}: {
           path: '{$init_conf[$um]["uploadPath"]}'
         }{lt name="$i" value=":count($uploads.multiple)"},
@@ -395,7 +398,7 @@ export default {
 {volist name="uploads.single" id="us"}
         {$us}: [{volist name="init_conf[$us]['uploadFormat']" id="iu" key="k"}'{$iu}'{lt name="$k" value=":count($init_conf[$us]['uploadFormat'])"},{/lt}{/volist}]{lt name="$i" value=":count($uploads.single)"},
 {/lt}
-{/volist}{volist name="uploads.multiple" id="um"},
+{/volist}{notempty name="uploads.single"},{/notempty}{volist name="uploads.multiple" id="um"}
         {$um}: [{volist name="init_conf[$um]['uploadFormat']" id="iu" key="k"}'{$iu}'{lt name="$k" value=":count($init_conf[$um]['uploadFormat'])"},{/lt}{/volist}]{lt name="$i" value=":count($uploads.multiple)"},
 {/lt}
 {/volist}        
@@ -404,18 +407,18 @@ export default {
 {volist name="uploads.single" id="us"}
         {$us}: 2048{lt name="$i" value=":count($uploads.single)"},
 {/lt}
-{/volist}{volist name="uploads.multiple" id="um"},
+{/volist}{notempty name="uploads.single"},{/notempty}{volist name="uploads.multiple" id="um"}
         {$um}: 2048{lt name="$i" value=":count($uploads.multiple)"},
 {/lt}
 {/volist}        
       },
       uploadRemove: {
 {volist name="uploads.single" id="us"}
-        {$us}: (vm) => {
-          this.formField[vm.field] = ''
+        {$us}: (field) => {
+          this.formField[field] = ''
         }{lt name="$i" value=":count($uploads.single)"},
 {/lt}
-{/volist}{volist name="uploads.multiple" id="um"},
+{/volist}{notempty name="uploads.single"},{/notempty}{volist name="uploads.multiple" id="um"}
         {$um}: (file, field) => {
           this.formField[field] = this.formField[field].filter((item, index) => item != file.name)
         }{lt name="$i" value=":count($uploads.multiple)"},
@@ -429,9 +432,9 @@ export default {
           console.log(name)
         }{lt name="$i" value=":count($uploads.single)"},
 {/lt}
-{/volist}{volist name="uploads.multiple" id="um"},
+{/volist}{notempty name="uploads.single"},{/notempty}{volist name="uploads.multiple" id="um"}
         {$um}: (name) => {
-          this.formField.{$us}.push(name)
+          this.formField.{$um}.push(name)
           console.log(name)
         }{lt name="$i" value=":count($uploads.multiple)"},
 {/lt}
