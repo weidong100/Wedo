@@ -6,9 +6,9 @@ Wedo快速开发框架
 
 PHP框架使用ThinkPHP5，官网：http://www.thinkphp.cn/ 
 
-UI框架使用iview-admin，官网：https://www.iviewui.com/； 
+UI框架使用iview-admin，官网：https://www.iviewui.com/
 
-接口文档使用apidoc，官网：http://apidocjs.com/;
+接口文档使用apidoc，官网：http://apidocjs.com/
 
 
 系统默认
