@@ -89,6 +89,11 @@ export default {
       }
     }
   },
+  watch: {
+    uplist:  function(newVal) {
+      this.initList = newVal
+    }
+  },
   computed: {
     _params: function(){
       return Object.assign({}, this.params, { format: this.format.join() })
@@ -104,13 +109,9 @@ export default {
         this.$emit('on-remove', file, this.field)
     },
     handleSuccess (res, file) {
-        this.initList.pop()
-        let sfile = {
-          name: res.data.fileName,
-          url: res.data.filePath,
-          status: 'finished'
-        }
-        this.initList.push(sfile)
+        file.name = res.data.fileName
+        file.url  = res.data.filePath
+
         this.$Message.info(res.msg)
         this.$emit('upload-success', res.data.fileName)
     },

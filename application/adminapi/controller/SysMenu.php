@@ -1,6 +1,5 @@
 <?php
-namespace app\adminapi\controller\rest;
-use app\adminapi\controller\Common;
+namespace app\adminapi\controller;
 use think\Db;
 use app\adminapi\model\SysMenu as SysMenumodel;
 class SysMenu extends Common{

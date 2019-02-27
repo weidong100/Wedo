@@ -1,8 +1,6 @@
 <?php
-namespace app\adminapi\controller\rest;
-
-use think\Controller;
-use app\adminapi\controller\Common;
+namespace app\adminapi\controller;
+use think\Db;
 
 class SysDict extends Common{
 	protected $model = null;

@@ -1,8 +1,7 @@
 <?php
-namespace app\adminapi\controller\rest;
+namespace app\adminapi\controller;
 use think\Controller;
 use app\adminapi\model\RoleModel;
-use app\adminapi\controller\Common;
 use think\Db;
 
 class SysRole extends Common

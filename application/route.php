@@ -13,8 +13,8 @@ use think\Route;
 Route::rest('create',['POST', '/create','create']);
 Route::rule('sysDept/getRolesByDept', 'adminapi/SysDept/getRolesByDept', 'get');
 Route::rule('sysMenu/getUserSysMenu', 'adminapi/SysMenu/getUserSysMenu', 'get');
-Route::rule('sysRole/getUserSysMenu', 'adminapi/SysRole/setRoleAuth', 'post');
-Route::rule('sysUser/getUserSysMenu', 'adminapi/SysUser/getUserInfo', 'get');
+Route::rule('sysRole/setRoleAuth', 'adminapi/SysRole/setRoleAuth', 'post');
+Route::rule('sysUser/getUserInfo', 'adminapi/SysUser/getUserInfo', 'get');
 
 
 return array (

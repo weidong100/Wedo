@@ -161,7 +161,7 @@
 {volist name="uploads.multiple" id="um"}
                     <Row>
                         <Col span="12">
-                            <MultipleUpload title="{$alias[$um]}" field="{$um}" {if condition="$init_conf[$um]['uploadApi']"}action="{$init_conf[$um]['uploadApi']}"{/if} :up="uploadInit.{$um}" :params="uploadParam.{$um}" :format="uploadFormat.{$um}" :maxSize="uploadMaxSize.{$um}" @upload-success="uploadSuccess.{$um}" @on-remove="uploadRemove.{$um}"></MultipleUpload>
+                            <MultipleUpload title="{$alias[$um]}" field="{$um}" {if condition="$init_conf[$um]['uploadApi']"}action="{$init_conf[$um]['uploadApi']}"{/if} :uplist="uploadInit.{$um}" :params="uploadParam.{$um}" :format="uploadFormat.{$um}" :maxSize="uploadMaxSize.{$um}" @upload-success="uploadSuccess.{$um}" @on-remove="uploadRemove.{$um}"></MultipleUpload>
                         </Col>
                     </Row>
 {/volist}

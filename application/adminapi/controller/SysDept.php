@@ -11,10 +11,9 @@
 // | 出品: 青岛微动一百网络有限公司    技术交流QQ群（157261071）
 // +----------------------------------------------------------------------
 
-namespace app\adminapi\controller\rest;
+namespace app\adminapi\controller;
 
 use think\Controller;
-use app\adminapi\controller\Common;
 
 class SysDept extends Common{
 	protected $model = null;
